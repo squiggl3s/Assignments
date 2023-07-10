@@ -1,0 +1,456 @@
+//Point
+public class Point implements Comparable{
+    int x;
+    int y;
+    public Point(){
+        this.x=0;
+        this.y=0;
+    }
+    public Point(int x, int y){
+        this.x=x;
+        this.y=y;
+    }
+    public int quadrant(){
+        if (x==0||y==0){
+            return 0;
+        } else if (x>0&&y>0){
+            return 1;
+        } else if (x<0&&y>0){
+            return 2;
+        } else if (x<0&&y<0){
+            return 3;
+        } else {
+            return 4;
+        }
+    }
+    public void flip(){
+        int x = this.x;
+        this.x=-this.y;
+        this.y=-x;
+    }
+    public int manhattanDistance(Point other){
+        return Math.abs(other.x-this.x)+Math.abs(other.y-this.y);
+    }
+    public boolean isVertical(Point other){
+        return (other.x==this.x);
+    }
+    public double slope(Point other){
+        if (isVertical(other)){
+            throw new IllegalArgumentException("Undefined");
+        } else {
+            return ((double) (other.y-this.y)/(other.x-this.x));
+        }
+    }
+    public boolean isCollinear(Point p1, Point p2){
+        if ((this.x==p1.x&&p1.x==p2.x)||(this.y==p1.y&&p1.y==p2.y)){
+            return true;
+        } else {
+            int slope1=(int)(this.slope(p1)*100);
+            int slope2=(int)(this.slope(p2)*100);
+            return (slope1==slope2);
+        }
+    }
+    public String toString(){
+        return "("+x+", "+y+")";
+    }
+    public int compareTo(Object o){
+        if (o instanceof Point){
+            if (this.y==((Point)o).y){
+                return this.x-((Point)o).x;
+            }
+            return this.y-((Point)o).y;
+        }
+        return 0;
+    }
+}
+//Rectangle
+public class Rectangle{
+    int x;
+    int y;
+    int width;
+    int height;
+    public Rectangle(int x, int y, int width, int height){
+        illegal(width, height);
+        this.x=x;
+        this.y=y;
+        this.width=width;
+        this.height=height;
+    }
+    public Rectangle(Point p, int width, int height){
+        illegal(width, height);
+        this.x=p.x;
+        this.y=p.y;
+        this.width=width;
+        this.height=height;
+    }
+    private void illegal(int width, int height){
+        if (width<=0||height<=0){
+            throw new IllegalArgumentException("Negative width or height");
+        }
+    }
+    public int getHeight(){
+        return height;
+    }
+    public int getWidth(){
+        return width;
+    }
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
+    public boolean contains(int x, int y){
+        return (x>this.x&&x<this.x+width&&y<this.y&&y>this.y-height);
+    }
+    public boolean contains(Point p){
+        return contains(p.x, p.y);
+    }
+    public Rectangle union(Rectangle rect){
+        int newX=Math.min(this.x, rect.getX());
+        int newY=Math.max(this.y, rect.getY());
+        int newWidth=Math.max(x+width, rect.getX()+rect.getWidth())-newX;
+        int newHeight=newY-Math.min(y-height, rect.getY()-rect.getHeight());
+        return new Rectangle(newX, newY, newWidth, newHeight);
+    }
+    public Rectangle intersection(Rectangle rect) {
+        int x = Math.max(this.x, rect.x), y = Math.min(this.y, rect.y);
+        int r = Math.min(this.x + this.width, rect.x + rect.width);
+        int b = Math.max(this.y - this.height, rect.y - rect.height);
+        return new Rectangle(x, y, Math.max(0, r-x), Math.max(0, y-b));
+    }
+    public String toString(){
+        return "Rectangle[x="+x+",y="+y+",width="+width+",height="+height+"]";
+    }
+}
+
+//Line
+public class Line{
+    Point p1;
+    Point p2;
+    public Line(Point p1, Point p2){
+        this.p1=p1;
+        this.p2=p2;
+    }
+    public Line(int x1, int y1, int x2, int y2){
+        p1=new Point(x1, y1);
+        p2=new Point(x2, y2);
+    }
+    public Point getP1(){
+        return p1;
+    }
+    public Point getp2(){
+        return p2;
+    }
+    public double getSlope(){
+        return p1.slope(p2);
+    }
+    public boolean isCollinear(Point p){
+        return p1.isCollinear(p2, p);
+    }
+    public String toString(){
+        return "["+p1.toString()+", "+p2.toString()+"]";
+    }
+}
+
+//BankAccount
+public class BankAccount{
+    String name;
+    double balance;
+    double transactionFee;
+    public BankAccount(String name){
+        this.name=name;
+    }
+    public void deposit(double amount){
+        balance+=amount;
+    }
+    public void withdraw(double amount){
+        double a = balance-amount-transactionFee;
+        if (a>0){
+            balance=a;
+        }
+    }
+    public void setTransactionFee(double amount){
+        transactionFee=amount;
+    }
+    public void transfer(BankAccount other, double amount){
+        if (this.balance-5<amount&&this.balance-5>0){
+            other.balance+=this.balance-5;
+            balance=0;
+        } else if (this.balance-5>amount){
+            balance=balance-5-amount;
+            other.balance+=amount;
+        }
+    }
+    public String toString(){
+        return name+", $"+balance;
+    }
+    public static void main(){
+        BankAccount ben = new BankAccount("Ben");
+        ben.deposit(80);
+        BankAccount hal=new BankAccount("Hal");
+        hal.deposit(20);
+        ben.transfer(hal, 20);
+        hal.transfer(ben, 40);
+        System.out.println(ben.toString());
+        System.out.println(hal.toString());
+    }
+}
+
+//Stock
+public class Stock{
+    private String symbol;
+    private int totalShares;
+    private double totalCost;
+    public Stock(String symbol){
+        this.symbol=symbol;
+        totalShares=0;
+        totalCost=0;
+    }
+    public double getProfit(double currentPrice){
+        double marketValue=totalShares*currentPrice;
+        return marketValue-totalCost;
+    }
+    public void purchase(int shares, double pricePerShare){
+        totalShares+=shares;
+        totalCost+=shares*pricePerShare;
+    }
+    public void clear(){
+        totalShares=0;
+        totalCost=0;
+    }
+}
+//TimeSpan
+public class TimeSpan{
+    private int hours;
+    private int minutes;
+    public TimeSpan(int hours, int minutes){
+        this.hours=hours;
+        this.minutes=minutes;
+    }
+    public void add(int hours, int minutes){
+        if (hours<0||minutes<0){
+            throw new IllegalArgumentException();
+        }
+        this.hours+=hours;
+        this.minutes+=minutes;
+        this.hours+=this.minutes/60;
+        this.minutes=this.minutes%60;
+    }
+    public int convertToMin(int hours, int minutes){
+        return hours*60+minutes;
+    }
+    public void setMinToHours(int minutes){
+        this.hours=minutes/60;
+        this.minutes=minutes%60;
+    }
+    public void add(TimeSpan span){
+        add(span.hours, span.minutes);
+    }
+    public void subtract(TimeSpan span){
+        setMinToHours(convertToMin(span.hours, span.minutes));
+    }
+    public void scale(int factor){
+        setMinToHours(convertToMin(hours, minutes)*factor);
+    }
+    public String toString(){
+        return hours+"h "+minutes+"m";
+    }
+    public int compareTo(TimeSpan t){
+        if (this.hours==t.hours){
+            return this.minutes-t.minutes;
+        }
+        return this.hours-t.hours;
+    }
+}
+
+//CalendarDate
+public class Date{
+    private int year;
+    private int month;
+    private int day;
+    public Date(int y, int m, int d){
+        this.year=y;
+        this.month=m;
+        this.day=d;
+    }
+    public void addDays(int d){
+        day+=d;
+        if (day>31){
+            day=day%31;
+            month+=day/31;
+        }
+        if (month>12){
+            month=month%12;
+            year+=month/12;
+        }
+    }
+    public void addWeeks(int w){
+        addDays(w*7);
+    }
+    public int daysTo(Date o){
+        int odays = o.year*365+o.month*31+o.day;
+        int thisdays = year*365+month*31+day;
+        return odays-thisdays;
+    }
+    public int getDay(){
+        return day;
+    }
+    public int getMonth(){
+        return month;
+    }
+    public int getYear(){
+        return year;
+    }
+    public boolean isLeapYear(){
+        if (year%4==0){
+            if (year%100==0){
+                return year%400==0;
+            }
+            return true;
+        }
+        return false;
+    }
+    public String toString(){
+        return year+"/"+month+"/"+day;
+    }
+    public int compareTo(Date o){
+        if (year==o.year){
+            if (month==o.month){
+                return day-o.day;
+            }
+            return month-o.month;
+        }
+        return year-o.year;
+    }
+}
+
+//RationalNumber
+public class RationalNumber{
+    //Client Code
+    public static void main(){
+        RationalNumber r = new RationalNumber(1, 8);
+        RationalNumber r2 = new RationalNumber(3, 8);
+        RationalNumber add = r.add(r2);
+        RationalNumber subtract = r.subtract(r2);
+        RationalNumber multiply = r.multiply(r2);
+        RationalNumber divide = r.divide(r2);
+        getString(r, r2, '+', r.add(r2).toString());
+        getString(r, r2, '-', r.subtract(r2).toString());
+        getString(r, r2, '*', r.multiply(r2).toString());
+        getString(r, r2, '/', r.divide(r2).toString());
+    }
+    public static void getString(RationalNumber r,RationalNumber r2,char operator,String s){
+        System.out.println(r.toString()+operator+r2.toString()+" = "+s);
+    }
+    private int num;
+    private int denom;
+    public RationalNumber(int numer, int denomin){
+        if (denomin==0){
+            throw new IllegalArgumentException("Denominator cannot be zero");
+        } else if (denom<0&&num>0){
+            num=-num;
+            denom=-denom;
+        } else if (denom<0&&num<0){
+            denom=-denom;
+            num=-num;
+        }
+        num=numer;
+        denom=denomin;
+    }
+    public RationalNumber(){
+        num=0;
+        denom=1;
+    }
+    public int getDenominator(){
+        return denom;
+    }
+    public int getNumerator(){
+        return num;
+    }
+    public String toString(){
+        this.simplified();
+        if (denom==1){
+            return ""+num;
+        }
+        return num+"/"+denom;
+    }
+    public void simplified(){
+        int min = Math.min(Math.abs(this.num), Math.abs(this.denom));
+        int gcf=1;
+        for (int i=2;i<=min;i++){
+            if (num%i==0&&denom%i==0){
+                gcf=i;
+            }
+        }
+        this.num/=gcf;
+        this.denom/=gcf;
+    }
+    public RationalNumber add(RationalNumber r){
+        int numerator = num*r.denom+r.num*denom;
+        int denominator = denom*r.denom;
+        return new RationalNumber(numerator, denominator);
+    }
+    public RationalNumber subtract(RationalNumber r){
+        RationalNumber rn = add(new RationalNumber(-r.num, r.denom));
+        return rn;
+    }
+    public RationalNumber multiply(RationalNumber r){
+        return (new RationalNumber(this.num*r.num, this.denom*r.denom));
+    }
+    public RationalNumber divide(RationalNumber r){
+        RationalNumber rn = multiply(new RationalNumber(r.denom, r.num));
+        return rn;
+    }
+}
+//GroceryItemOrder
+import java.text.NumberFormat;
+import java.util.Locale;
+public class GroceryItemOrder{
+    String name;
+    int amount;
+    double price;
+    public GroceryItemOrder(String n, int q, double p){
+        name=n;
+        amount=q;
+        price=p;
+    }
+    public double getCost(){
+        return price*amount;
+    }
+    public void setQuantity(int q){
+        amount=q;
+    }
+     public String toString(){
+        NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(Locale.US);  
+        return "Item Name: " + name +
+              "\n Quantity: " + amount +
+              "\n Price Per Unit: $" + price +
+              "\n Cost: " + moneyFormat.format(getCost());
+    }
+}
+
+//GroceryList
+import java.util.*;
+public class GroceryList{
+    private ArrayList<GroceryItemOrder> list;
+    public GroceryList(){
+        list=new ArrayList<GroceryItemOrder>();
+    }
+    public void add(GroceryItemOrder item){
+        if (list.size()<10){
+            list.add(item);
+        }
+    }
+    public double getTotalCost(){
+        double tc = 0;
+        for (int i=0;i<list.size();i++){
+            GroceryItemOrder item = list.get(i);
+            tc+=item.getCost();
+        }
+        return tc;
+    }
+}
+
+
+
