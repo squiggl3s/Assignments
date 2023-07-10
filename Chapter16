@@ -1,0 +1,529 @@
+import java.util.*;
+public class LinkedIntList{
+    //1
+    public void set (int index, int value){
+        ListNode current = nodeAt(index);
+        current.setData(value);
+    }
+    //2
+    public int min(){
+        if (front==null){
+            throw new NoSuchElementException();
+        }
+        int min = front.getData();
+        ListNode current = front.getNext();
+        while (current!=null){
+            min = Math.min(current.getData(), min);
+            current = current.getNext();
+        }
+        return min;
+    }
+    //3
+    public boolean isSorted(){
+        if (front == null){
+            return true;
+        }
+        int prev = front.getData();
+        ListNode current = front.getNext();
+        while (current!=null){
+            if (prev>current.getData()){
+                return false;
+            }
+            current=current.getNext();
+        }
+        return true;
+    }
+    //4
+    public int lastIndexOf(int value){
+        ListNode current = front;
+        int index = -1, i=0;
+        while (current!=null){
+            if (current.getData()==value){
+                index = Math.max(index, i);
+            }
+            current = current.getNext();
+            i++;
+        }
+        return index;
+    }
+    //5
+    public int countDuplicates(){
+        if (front == null){
+            return 0;
+        }
+        ListNode current = front.getNext();
+        int n = front.getData(), count = 0;
+        while (current!=null){
+            if (current.getData()==n){
+                count++;
+            } else {
+                n = current.getData();
+            }
+            current = current.getNext();
+        }
+        return count;
+    }
+    //6
+    public boolean hasTwoConsecutive(){
+        if (front == null){
+            return false;
+        }
+        ListNode current = front.getNext();
+        int n = front.getData();
+        while (current!=null){
+            if (n+1==current.getData()){
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
+    }
+    //7
+    public int deleteBack(){
+        int value = 0;
+        if (front == null){
+            throw new NoSuchElementException();
+        } else if (front.getNext() == null){
+            value = front.getData();
+            front = null;
+        } else {
+            ListNode current = front;
+            while (current.getNext().getNext()!=null){
+                current = current.getNext();
+            }
+            value = current.getNext().getData();
+            current.setNext(null);
+        }
+        return value;
+    }
+    //8 
+    public void switchPairs(){
+        ListNode current = front;
+        while (current!=null&&current.getNext()!=null){
+            int temp = current.getData();
+            current.setData(current.getNext().getData());
+            current.getNext().setData(temp);
+            current = current.getNext().getNext();
+        }
+    }
+    //9
+    public void stutter(){
+        stretch(2);
+    }
+    //10
+    public void stretch(int n){
+        ListNode current = front;
+        int oldSize = this.size();
+        for (int i=0;i<oldSize;i++){
+            for (int j = 0; j<n-1;j++){
+                current.setNext(new ListNode(current.data, current.getNext()));
+                current = current.getNext();
+            }
+            current=current.getNext();
+        }
+    }
+    //11
+    public void compress(){
+        ListNode current = front;
+        int oldSize = this.size();
+        for (int i=0;i<oldSize/2;i++){
+            current.setData(current.getData()+current.getNext().getData());
+            current.setNext(current.getNext().getNext());
+            current = current.getNext();
+        }
+    }
+    //12
+    public void split(){
+        ListNode current = front;
+        while (current!=null&&current.getNext()!=null){
+            if (current.getNext().getData()<0){
+                ListNode temp = current.getNext();
+                current.setNext(current.getNext().getNext());
+                temp.setNext(front);
+                front = temp;
+                temp = null;
+            } else {
+                current = current.getNext();
+            }
+        }
+    }
+    //13
+    public void transferFrom (LinkedIntList l2){
+        ListNode current = nodeAt(size()-1);
+        current.setNext(l2.front);
+        l2.front=null;
+    }
+    //14
+    public void removeAll(int n){
+        //front
+        while (front.getData()==n){
+            front = front.getNext();
+        }
+        //middle
+        ListNode prev = front;
+        ListNode current = front.getNext();
+        while (current.getNext()!=null){
+            if (current.getData()==n){
+                current = current.getNext();
+                prev.setNext(current);
+            } else {
+                prev = current;
+                current = current.next;
+            }
+        }
+        //end
+        if (current.getData()==n){
+            prev.setNext(null);
+        }
+    }
+    //15
+    public boolean equals(LinkedIntList l2){
+        if (l2.size()!=size()){
+            return false;
+        }
+        ListNode current = front;
+        ListNode current1 = l2.front;
+        while (current!=null){
+            if (current.getData()!=current1.getData()){
+                return false;
+            }
+            current = current.getNext();
+            current1 = current1.getNext();
+        }
+        return true;
+    }
+    //16 
+    public LinkedIntList removeEvens(){
+        LinkedIntList list2 = new LinkedIntList();
+        if (front!=null||front.next!=null){
+            list2.front = front;
+            front = front.getNext();
+            ListNode current = front;
+            ListNode current2 = list2.front;
+            while (current!=null&&current2!=null){
+                if (current2.getNext()!=null){
+                    current2.setNext(current2.getNext().getNext());
+                    current2 = current2.getNext();
+                } 
+                if (current.getNext()!=null){
+                    current.setNext(current.getNext().getNext());
+                    current = current.getNext();
+                }
+            }
+        }
+        return list2;
+    }
+    //17
+    public void removeRange(int i1, int i2){
+        if (i1<0||i2<0){
+            throw new IllegalStateException();
+        } 
+        ListNode current = front;
+        for (int i=0;i<i1-1;i++){
+            current = current.getNext();
+        }
+        for (int i=i1;i<i2;i++){
+            current.setNext(current.getNext().getNext());
+        }
+    }
+    //18
+    public void doubleList(){
+        ListNode current = front;
+        ListNode temp = new ListNode(current.getData());
+        current = current.getNext();
+        ListNode ctemp = temp;
+        while (current.next!=null){
+            ctemp.setNext(new ListNode(current.getData()));
+            current = current.getNext();
+            ctemp = ctemp.getNext();
+        }
+        ctemp.setNext(new ListNode(current.getData()));
+        current.setNext(temp);
+    }
+    //19
+    public void rotate(){
+        ListNode current = nodeAt(this.size()-1);
+        current.setNext(front);
+        front = front.getNext();
+        current.getNext().setNext(null); 
+    }
+    //20
+    public void shift(){
+        if (front!=null||front.next!=null){
+            ListNode current = front;
+            ListNode current2 = front;
+            for (int i=0;(i<size()&&current!=null&&current.getNext()!=null);i++){
+                if (i%2!=0){
+                    ListNode temp = current.getNext();
+                    current.setNext(current.getNext().getNext());                    
+                    temp.setNext(current2.getNext());
+                    current2.setNext(temp);;
+                    temp = null;
+                    current2 = current2.getNext();
+                    i--;
+                }
+                current = current.getNext();
+                System.out.println(this);
+            }
+        }
+    }
+    public void shift1(){
+        if (front!=null||front.next!=null){
+            ListNode current = front;
+            ListNode current2 = front;
+            boolean test = false;
+            while (current!=null&&current.getNext()!=null){
+                if (test){
+                    ListNode temp = current.getNext();
+                    current.setNext(current.getNext().getNext());
+                    temp.setNext(current2.getNext());
+                    current2.setNext(temp);
+                    temp = null;
+                    current2 = current2.getNext();
+                } else {
+                    test = !test;
+                }
+                current = current.getNext();
+            }
+        }
+    }
+    //21 
+    public void reverse(){
+        ListNode prev = null, c = front, temp;
+        while (c!=null){
+            temp = c.getNext();
+            c.setNext(prev);
+            prev = c;
+            front = c;
+            c = temp;
+        }
+    }
+    //Project#1
+    public void addAll(int index, LinkedIntList list){
+        if (front == null || index>=this.size()){
+            throw new IllegalStateException();
+        }
+        ListNode current = front;
+        for (int i=0;i<index-1;i++){
+            current = current.getNext();
+        }
+        ListNode current2 = list.front;
+        for (int i=0;i<list.size();i++){
+            current.setNext(new ListNode(current2.getData(), current.getNext()));
+            current = current.getNext();
+            current2 = current2.getNext();
+        }
+    }
+    public boolean containsAll(LinkedIntList list){
+        ListNode current = list.front;
+        while (current!=null){
+            if (this.indexOf(current.getData())==-1){
+                return false;
+            }
+            current = current.getNext();
+        }
+        return true;
+    }
+    public boolean equals (Object o){
+        if (o instanceof LinkedIntList){
+            return equals((LinkedIntList)o);
+        }
+        return false;
+    }
+    public int lastIndexOf(Object o){
+        if (o instanceof Integer){
+            return lastIndexOf((int)o);
+        }
+        return -1;
+    }
+    public boolean remove(Object o){
+        if (o instanceof Integer){
+            remove(get((int)o));
+            return true;
+        }
+        return false;
+    }
+    public void removeAll(LinkedIntList list){
+        while (front!=null&&list.contains(front.getData())){
+            front = front.getNext();
+        }
+        if (front!=null){
+            ListNode prev = front;
+            ListNode current = front.getNext();
+            while (current!=null){
+                if (list.contains(current.getData())){
+                    current = current.getNext();
+                    prev.setNext(current);
+                } else {
+                    prev = current;
+                    current = current.getNext();
+                }
+            }
+        }
+    }
+    public void retainAll(LinkedIntList list){
+        while (front!=null&&!list.contains(front.getData())){
+            front = front.getNext();
+        }
+        if (front!=null){
+            ListNode prev = front;
+            ListNode current = front.getNext();
+            while (current!=null){
+                if (!list.contains(current.getData())){
+                    current = current.getNext();
+                    prev.setNext(current);
+                } else {
+                    prev = current;
+                    current = current.getNext();
+                }
+            }
+        }
+    }
+    public int[] toArray(){
+        int a[] = new int[size()];
+        ListNode current = front;
+        for (int i=0;i<size();i++){
+            a[i] = current.getData();
+            current = current.getNext();
+        }
+        return a;
+    }
+    //code from book
+    private ListNode front; 
+    public LinkedIntList(){
+        front = null;
+    }
+    public Iterator iterator(){
+        return new LinkedIterator();
+    }
+    public boolean contains(int value){
+        ListNode current = front;
+        while (current!=null){
+            if (current.getData()==value){
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
+    }
+    public int size() {
+        int count = 0;
+        ListNode current = front;
+        while (current != null) {
+            current = current.getNext();
+            count++;
+        }
+        return count;
+    }
+    public int get(int index) {
+        return nodeAt(index).getData();
+    }
+    public String toString() {
+        if (front == null) {
+            return "[]";
+        } else {
+            String result = "[" + front.getData();
+            ListNode current = front.getNext();
+            while (current != null) {
+                result += ", " + current.getData();
+                current = current.getNext();
+            }
+            result += "]";
+            return result;
+        }
+    }
+    public int indexOf(int value) {
+        int index = 0;
+        ListNode current = front;
+        while (current !=  null) {
+            if (current.getData() == value) {
+                return index;
+            }
+            index++;
+            current = current.getNext();
+        }
+        return -1;
+    }
+    public void add(int value) {
+        if (front == null) {
+            front = new ListNode(value);
+        } else {
+            ListNode current = front;
+            while (current.getNext() != null) {
+                current = current.getNext();
+            }
+            current.setNext(new ListNode(value));
+        }
+    }
+    public void add(int index, int value) {
+        if (index == 0) {
+            front = new ListNode(value, front);
+        } else {
+            ListNode current = nodeAt(index - 1);
+            current.setNext(new ListNode(value, current.getNext()));
+        }
+    }
+    public void remove(int index) {
+        if (index == 0) {
+            front = front.getNext();
+        } else {
+            ListNode current = nodeAt(index - 1);
+            current.setNext(current.getNext().getNext());
+        }
+    }
+    private ListNode nodeAt(int index) {
+        ListNode current = front;
+        for (int i = 0; i < index; i++) {
+            current = current.getNext();
+        }
+        return current;
+    }
+    public class ListNode{
+        public int data;
+        public ListNode next;
+        public ListNode(int data, ListNode next){
+            this.data = data;
+            setNext(next);
+        }
+        public ListNode(int data){
+            this(data, null);
+        }
+        public ListNode getNext(){
+            return next;
+        }
+        public int getData(){
+            return data;
+        }
+        public void setData(int i){
+            this.data = i;
+        }
+        public void setNext(ListNode n){
+            next = n;
+        }
+    }
+    private class LinkedIterator implements Iterator<Integer>{
+        private ListNode current;
+        private boolean removeOk;
+        public LinkedIterator(){
+            current = front.getNext();
+            removeOk = false;
+        }
+        public boolean hasNext(){
+            return (current.getNext()!=null);
+        }
+        public Integer next(){
+            if (!hasNext()){
+                throw new NoSuchElementException();
+            }
+            int result = current.getData();
+            current = current.getNext();
+            removeOk = true;
+            return result;
+        }
+        public void remove(){
+            //does not work
+        }
+    }
+}
+
+
