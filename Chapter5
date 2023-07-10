@@ -1,0 +1,405 @@
+ import java.util.*;
+public class chapter5{
+    public static void main (String []args){
+        exercise(1);
+        showTwos(120);
+        space(1);
+        
+        exercise(2);
+        System.out.println(gcd(12,24));
+        space(1);
+        
+        exercise(3);
+        System.out.println(toBinary(44));
+        space(1);
+        
+        exercise(4);
+        randomX();
+        space(1);
+        
+        exercise(5);
+        randomLines();
+        space(1);
+        
+        exercise(6);
+        makeGuesses();
+        space(1);
+        
+        exercise(7);
+        Scanner console = new Scanner (System.in);
+        diceSum(console);
+        space(1);
+        
+        exercise(8);
+        randomWalk();
+        space(1);
+        
+        exercise(9);
+        printFactors(24);
+        space(1);
+        
+        exercise(10);
+        hopscotch(3);
+        space(1);
+        
+        exercise(11);
+        threeHeads();
+        space(1);
+        
+        exercise(12);
+        printAverage();
+        space(1);
+        
+        exercise(13);
+        System.out.println(consecutive(1,2,3));
+        System.out.println(consecutive(1,2,2));
+        space(1);
+        
+        exercise(14);
+        System.out.println(hasMidpoint(4, 10, 7));
+        space(1);
+        
+        exercise(15);
+        System.out.println(dominant(4, 2,9));
+        space(1);
+        
+        exercise(16);
+        System.out.println(anglePairs(30, 60, 120));
+        space(1);
+        
+        exercise(17);
+        System.out.println(monthApart(9, 15, 10, 19));
+        space(1);
+        
+        exercise(18);
+        System.out.println(digitSum(123456));
+        space(1);
+        
+        exercise(19);
+        System.out.println(firstDigit(123456));
+        space(1);
+        
+        exercise(20);
+        System.out.println(digitRange(99718241));
+        space(1);
+        
+        exercise(21);
+        System.out.println(swapDigitPairs(123456));
+        space(1);
+        
+        exercise(22);
+        System.out.println(allDigitsOdd(13579));
+        space(1);
+        
+        exercise(23);
+        System.out.println(hasAnOddDigit(4822116));
+        space(1);
+        
+        exercise(24);
+        System.out.println(isAllVowels("oink"));
+        space(1);
+    }
+    public static void exercise(int number){
+        System.out.println("Exercise#"+number);
+    }
+    public static void space (int i){
+        for (int j=1;j<=i;j++){
+            System.out.println();
+        }
+    }
+    //1
+    public static void showTwos(int n){
+        System.out.print(n+" = ");
+        while (n%2==0){
+            System.out.print("2 * ");
+            n=n/2;
+        }
+        System.out.print(n);
+    }
+    //2
+    public static int gcd(int a, int b){
+        int n = 1;
+        int factor=1;
+        int max = Math.min(a, b);
+        while (n<=max){
+            if (a%n==0&&b%n==0){
+                factor = n;
+            }
+            n++;
+        }
+        return factor;
+    }
+    //3
+    public static String toBinary(int n){
+        String results = "";
+        while (n!=0){
+            results = n%2+results;
+            n/=2;
+        }
+        return results;
+    }
+    //4
+    public static void randomX(){
+        Random rand = new Random();
+        int a;
+        do {
+            a = rand.nextInt(16)+5;
+            for (int i=1;i<=a;i++){
+                System.out.print("x");
+            }
+            System.out.println();
+        } while (a<=16);
+    }
+    //5
+    public static void randomLines(){
+        Random rand = new Random();
+        int lines = rand.nextInt(6)+5;
+        for (int i=1;i<=lines;i++){
+            int letters = rand.nextInt(81);
+            for (int j=1;j<=letters;j++){
+                System.out.print((char)(rand.nextInt(26)+97));
+            }
+            System.out.println();
+        }
+    }
+    //6
+    public static void makeGuesses(){
+        Scanner console = new Scanner (System.in);
+        int a;
+        int b = 0;
+        do {
+            System.out.print("guess = ");
+            a = console.nextInt();
+            b++;
+        } while (a<48);
+        System.out.println("total guesses = " + b);
+    }
+    //7
+    public static void diceSum (Scanner console){
+        Random rand = new Random();
+        System.out.print("Desired dice sum: ");
+        int a = console.nextInt();
+        while (a>12|a<2){
+            System.out.println("That is not a valid number");
+            System.out.print("Enter in a sum between 2 and 12:");
+            a = console.nextInt();
+        }
+        int n1;
+        int n2;
+        do {
+            n1 = rand.nextInt(5)+1;
+            n2 = rand.nextInt(5)+1;
+            System.out.println(n1 + " and "+ n2+ " = " + (n1+n2));
+        } while (n1+n2 !=a);
+    }
+    //8
+    public static void randomWalk(){
+        Random rand = new Random();
+        int position = 1;
+        int max = 1;
+        while (-3<=position&&position<=3){
+            System.out.println("position = "+position);
+            boolean increase = rand.nextBoolean();
+            max = Math.max(max, position);
+            if (increase){
+                position++;
+            } else {
+                position--;
+            }
+        }
+        System.out.println("max position = " +max);
+    }
+    //9 
+    public static void printFactors(int i){
+        if (i<=0){
+            throw new IllegalArgumentException ("n o . ");
+        }
+        System.out.print("1 ");
+        int n=2;
+        while (n<=i){
+            if (i%n==0){
+                System.out.print("and ");
+                System.out.print(n+" ");
+            }
+            n++;
+        }
+    }
+    //10
+    public static void hopscotch(int i){
+        System.out.println("    1");
+        for (int j=1;j<=i;j++){
+            int k = 3*j-1;
+            System.out.println(k+"\t"+(k+1));
+            System.out.println("    "+(3*j+1));
+        }
+    }
+    //11
+    public static void threeHeads(){
+        Random rand = new Random();
+        int count=0;
+        while (count<3){
+            boolean head = rand.nextBoolean();
+            if (head){
+                System.out.print("H ");
+                count++;
+            } else {
+                System.out.print("T ");
+                count = 0; 
+            }
+        }
+        System.out.println();
+        System.out.println("Three heads in a row!");
+    }
+    //12
+    public static void printAverage(){
+        Scanner console = new Scanner (System.in);
+        System.out.print("Type a number: ");
+        int a = console.nextInt();
+        double sum = a;
+        int n = 1;
+        while (a>=0){
+            sum+=a;
+            System.out.print("Type a number: ");
+            a = console.nextInt();
+            n++;
+        }
+        System.out.println("Average was  "+ sum/n);
+    }
+    //13
+    public static boolean consecutive(int a, int b,int c){
+        int max = Math.max(a, Math.max(b,c));
+        int min = Math.min(a, Math.min(b,c));
+        int mid;
+        if (a<b&&b<c||c<b&&b<a){
+            mid = b;
+        } else if (b<a&&a<c||c<a&&a<b){
+            mid = a;
+        } else {
+            mid = c;
+        }
+        boolean test1 = (min+1==mid);
+        boolean test2 = (mid+1==max);
+        return test1&&test2;
+    }
+    //14
+    public static boolean hasMidpoint(int a, int b, int c){
+        int max = Math.max(a, Math.max(b, c));
+        int min = Math.min(a, Math.min(b, c));
+        int midpoint = (max+min)/2;
+        if (midpoint == a ||midpoint ==b||midpoint ==c){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //15 
+    public static boolean dominant (int a, int b, int c){
+        int max = Math.max(a, Math.max(b, c));
+        if (a+b<max||b+c<max||c+a<max){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //16
+    public static boolean anglePairs(int a, int b, int c){
+        boolean test1 = (a+b==90)||(b+c==90)||(c+a==90);
+        boolean test2 = (a+b==180)||(b+c==180)||(c+a==180);
+        return test1&&test2;
+    }
+    //17
+    public static boolean monthApart(int m1, int d1, int m2, int d2){
+        if (m1==m2||Math.abs(m1-m2)>1){
+            return false;
+        } 
+        if (m1>m2){
+            return d1-d2>=0;
+        }
+        return d2-d1>=0;
+    }
+    //18
+    public static int digitSum (int i){
+        i=Math.abs(i);
+        int sum = 0;
+        while (i>0){
+            sum+= i%10;
+            i/=10;
+        }
+        return sum;
+    }
+    //19
+    public static int firstDigit (int i){
+        i= Math.abs(i);
+        while(i>9){
+          i/=10;
+        }
+        return i;
+    }
+    //20
+    public static int digitRange(int i){
+        int max = 0;
+        int min = 10;
+        while (i>0){
+            max = Math.max(max, i%10);
+            min = Math.min(min, i%10);
+            i/=10;
+        }
+        return max-min+1;
+    }
+    //21  
+    public static int swapDigitPairs(int n){
+        int results = 0, i=1;
+        while (n>0){
+            int d1=n%10;
+            n/=10;
+            if (n==0){
+                results+=i*d1;
+                return results;
+            }
+            int d2=n%10;
+            n/=10;
+            results = results+i*10*d1+i*d2;
+            i*=100;
+        }
+        return results;
+    }
+    //22
+    public static boolean allDigitsOdd (int i){
+        while (i>0){
+            boolean odd = (i%10)%2!=0;
+            if (!odd){
+                return false;
+            }
+            i/=10;
+        }
+        return true;
+    }
+    //23
+    public static boolean hasAnOddDigit(int i){
+        while (i>0){
+            boolean even = (i%10)%2==0;
+            if (!even){
+                return true;
+            }
+            i/=10;
+        }
+        return false;
+    }
+    //24
+    public static boolean isAllVowels(String word){
+        word = word.toLowerCase();
+        int n = 0;
+        int a = 97, e = 101, i = 105, o = 111, u = 117;
+        while (n<word.length()){
+            int c = (int)word.charAt(n);
+            if (c==a||c==e||c==i||c==o||c==u){
+                n++;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
