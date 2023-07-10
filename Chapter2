@@ -1,0 +1,553 @@
+public class Chapter2_Exercises {
+    public static void main(String[] args){
+        System.out.println();
+        //Exercise#1
+        physics();
+        System.out.println();
+        //Exercise#2
+        pattern();
+        System.out.println();
+        //Exercise#3
+        fibonacci();
+        System.out.println();
+        //Exercise#4
+        stars();
+        System.out.println();
+        //Exercise#5
+        stars2();
+        System.out.println();
+        //Exercise#6
+        numbers6();
+        System.out.println();
+        //Exercise#7
+        numberline();
+        System.out.println();
+        //Exercise#8
+        numbers8();
+        System.out.println();
+        //Exercise#9
+        numbers9();
+        System.out.println();
+        //Exercise#10
+        numbers10();
+        System.out.println();
+        //Exercise#11
+        numbers11();
+        System.out.println();
+        //Exercise#12
+        numbers12();
+        System.out.println();
+        //Exercise#13
+        numbers13();
+        System.out.println();
+        //Exercise#14
+        numbers14();
+        System.out.println();
+        //Exercise#15
+        numbers15();
+        System.out.println();
+        //Exercise#16
+        SlashFigure();
+        System.out.println();
+        //Exercise#17
+        SlashFigure4();
+        System.out.println();
+        SlashFigure8();
+        System.out.println();
+        //Exercise#19
+        window();
+        System.out.println();
+        //Exercise#20
+        StarFigure();
+        System.out.println();
+        //Exercise#21
+        StarFigure3();
+        System.out.println();
+        StarFigure6();
+        System.out.println();
+        //Exercise#22
+        DollarFigure();
+        System.out.println();
+        //Exercise#23
+        DollarFigure2();
+        System.out.println();
+        //Programming Project#1
+        propro1();
+        System.out.println();
+        //Programming Project#2
+        propro2();
+        System.out.println();
+    }
+    //Exercise#1
+    public static void physics(){
+        double t = 1;
+        double s0 = 2;
+        double v0 = 3;
+        double a = 4;
+        double s = s0+v0*t+0.5*a*(t*t);
+        System.out.println(s);
+    }
+    //Exercise#2
+    public static void pattern(){
+        for (int i=1;i<=10;i++){
+            System.out.print(i*i+" ");
+        }
+    }
+    //Exercise#3
+    public static void fibonacci(){
+        int a = 0, b=1, c=0;
+        System.out.print(b);
+        for (int i=2;i<=12;i++){
+            c=a+b;
+            System.out.print(" "+c);
+            a=b;
+            b=c;
+        }
+        System.out.println();
+    }
+    //Exercise#4
+    public static void stars(){
+        for (int i=1;i<=5;i++){
+            for (int j=1;j<=5; j++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#5
+    public static void stars2(){
+        for (int i=1;i<=5;i++){
+            for (int j=1;j<=i;j++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#6
+    public static void numbers6(){
+        for (int i=1;i<=7;i++){
+            for (int j=1;j<=i;j++){
+                System.out.print(i);
+            }
+            System.out.println();
+        }  
+    }
+    //Exercise#7
+    public static void numberline(){
+        for (int i=1;i<=5;i++){
+            for (int j=1;j<=5-i;j++){
+            System.out.print(" ");
+            }
+            System.out.print(i);
+            System.out.println();
+        }
+    } 
+    //Exercise#8
+    public static void numbers8(){
+        for (int i=1;i<=5;i++){
+            for (int j=1;j<=5-i;j++){
+                System.out.print(" ");
+            }
+            for (int k=1;k<=i;k++){
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#9
+    public static void numbers9(){
+        for (int i=1;i<=40;i++){
+            System.out.print("-");
+        }
+        System.out.println();
+        for (int i=1;i<=10;i++){
+            System.out.print("_-^-");
+        }
+        System.out.println();
+        for (int i=1;i<=2;i++){
+            for (int j=1;j<=9;j++){
+                System.out.print(j);
+                System.out.print(j);
+            }
+            for (int j=0;j<=0;j++){
+                System.out.print(j);
+                System.out.print(j);
+            }
+        }
+        System.out.println();
+        for (int i=1;i<=40;i++){
+            System.out.print("-");
+        }
+    }
+    //Exercise#10
+    public static void numbers10(){
+        for (int i=1;i<=6;i++){
+            for (int j=1;j<=9;j++){
+                System.out.print(" ");
+            }
+            for (int j=1;j<=1;j++){
+                System.out.print("|");
+            }
+        }
+        System.out.println();
+        for (int i=1;i<=6;i++){
+            for (int j=1;j<=9;j++){
+                System.out.print(j);
+            }
+            for (int j=0;j<=0;j++){
+                System.out.print(j);
+            }
+        }
+        System.out.println();
+    }
+    //Exercise#11
+    public static void numbers11(){
+        for (int i=1;i<=10;i++){
+            for (int j=1;j<=4;j++){
+                System.out.print(" ");
+            }
+            for (int j=1;j<=1;j++){
+                System.out.print("|");
+            }
+        }
+        System.out.println();
+        for (int i=1;i<=10;i++){
+            for (int j=1;j<=4;j++){
+                System.out.print(j);
+            }
+            for (int j=0;j<=0;j++){
+                System.out.print(j);
+            }
+        }
+        System.out.println();
+        for (int i=1;i<=7;i++){
+            for (int j=1;j<=7;j++){
+                System.out.print(" ");
+            }
+            for (int j=1;j<=1;j++){
+                System.out.print("|");
+            }
+        }
+        System.out.println();
+        for (int i=1;i<=7;i++){
+            for (int j=1;j<=7;j++){
+                System.out.print(j);
+            }
+            for (int j=0;j<=0;j++){
+                System.out.print(j);
+            }
+        }
+        System.out.println();
+    }
+    //Exercise#12
+    public static void numbers12(){
+        for (int i=1;i<=3;i++){
+            for (int j=0;j<=9;j++){
+                for (int k=1;k<=3;k++){
+                    System.out.print(j);
+                }
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#13
+    public static void numbers13(){
+        for (int i=1;i<=5;i++){
+            for (int j=9;j>=0;j--){
+                for (int k=1;k<=5;k++){
+                    System.out.print(j);
+                }
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#14
+    public static void numbers14(){
+        for (int i=1;i<=4;i++){
+            for (int j=9;j>=1;j--){
+                for (int k=1;k<=j;k++){
+                    System.out.print(j);
+                }
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#15
+    public static void numbers15(){
+        for (int i=1;i<=5;i++){
+            for(int j=1;j<=6-i;j++){
+                System.out.print("-");
+            }
+            for (int k=1;k<=2*i-1;k++){
+                System.out.print(2*i-1);
+            }
+            for (int j=1;j<=6-i;j++){
+                System.out.print("-");
+            }
+            System.out.println();
+        }  
+    }
+    //Exercise#16
+    public static void SlashFigure(){
+        for (int i=1;i<=6;i++){
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("\\");
+            }
+            for (int k=1;k<=26-4*i;k++){
+                System.out.print("!");
+            }
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("/");
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#17
+    public static void SlashFigure4(){
+        int height = 4;
+        int marks = 4*height+2;
+        for (int i=1;i<=height;i++){
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("\\");
+            }
+            for (int k=1;k<=marks-4*i;k++){
+                System.out.print("!");
+            }
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("/");
+            }
+            System.out.println();
+        }
+    }
+    public static void SlashFigure8(){
+        int height = 8;
+        int marks = 4*height+2;
+        for (int i=1;i<=height;i++){
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("\\");
+            }
+            for (int k=1;k<=marks-4*i;k++){
+                System.out.print("!");
+            }
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("/");
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#18
+    /*create method call window{
+     * for 2 times {
+     *     write line 
+     *     for 3 times{
+     *         for 3 times{
+     *              write "| " on the output line
+     *         }
+     *     skip a line
+     *     }
+     * }
+     * write line
+     }
+     create method call line{
+         for two times{
+             write "+"
+             for three times{
+                 write "="
+             }
+         }
+         write "+"
+     }
+     */
+    //Exercise#19
+    public static void window(){
+        for (int i=1;i<=2;i++){
+            line();
+            for (int j=1;j<=3;j++){
+                for (int k=1;k<=3;k++){
+                    System.out.print("|   ");
+                }
+                System.out.println();
+            }
+        }
+        line();
+    }
+    public static void line(){
+        for (int i=1;i<=2;i++){
+            System.out.print("+");
+            for (int j=1;j<=3;j++){
+                System.out.print("=");
+            }
+        }
+        System.out.println("+");
+    }
+    //Exercise#20
+    public static void StarFigure(){
+        for (int i=1;i<=5;i++){
+            for (int j=1;j<=20-4*i;j++){
+                System.out.print("/");
+            }
+            for (int j=1;j<=8*i-8;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=20-4*i;j++){
+                System.out.print("\\");
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#21
+    //the value of height is the global constant 
+    public static void StarFigure3(){
+        int height = 3;
+        int dash = 4*height;
+        for (int i=1;i<=height;i++){
+            for (int j=1;j<=dash-4*i;j++){
+                System.out.print("/");
+            }
+            for (int j=1;j<=8*i-8;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=dash-4*i;j++){
+                System.out.print("\\");
+            }
+            System.out.println();
+        }
+    }
+    public static void StarFigure6(){
+        int height = 6;
+        int dash = 4*height;
+        for (int i=1;i<=height;i++){
+            for (int j=1;j<=dash-4*i;j++){
+                System.out.print("/");
+            }
+            for (int j=1;j<=8*i-8;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=dash-4*i;j++){
+                System.out.print("\\");
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#22
+    public static void DollarFigure(){
+        for (int i=1;i<=7;i++){
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=8-i;j++){
+                System.out.print("$");
+            }
+            for (int j=1;j<=16-2*i;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=8-i;j++){
+                System.out.print("$");
+            }
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    //Exercise#23
+    public static void DollarFigure2(){
+        //the height value is the global constant for the figure's height
+        int height=7;
+        //the one right above this note, yes this height one
+        int dollarsigns = height+1;
+        int star=height*2+2;
+        for (int i=1;i<=height;i++){
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=dollarsigns-i;j++){
+                System.out.print("$");
+            }
+            for (int j=1;j<=star-2*i;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=dollarsigns-i;j++){
+                System.out.print("$");
+            }
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    public static void propro1(){
+        for (int i=1;i<=7;i++){
+            for (int j=1;j<=7-i;j++){
+                System.out.print("*");
+            }
+            for (int j=1;j<=i;j++){
+                System.out.print(" ");
+            }
+            for (int j=1;j<=14-2*i;j++){
+                System.out.print("/");
+            }
+            for (int j=1;j<=2*i-2;j++){
+                System.out.print("\\");
+            }
+            for (int j=1;j<=i;j++){
+                System.out.print(" ");
+            }
+            for (int j=1;j<=7-i;j++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+    public static void propro2(){
+        propro2line();
+        for (int i=1;i<=2;i++){
+            for (int j=1;j<=3;j++){
+                System.out.print("|");
+                for (int k=1;k<=3-j;k++){
+                    System.out.print(" ");
+                }
+                System.out.print("^");
+                for (int k=1;k<=2*j-2;k++){
+                    System.out.print(" ");
+                }
+                System.out.print("^");
+                for (int k=1;k<=3-j;k++){
+                    System.out.print(" ");
+                }
+                System.out.print("|");
+                System.out.println();
+            }
+        }
+        propro2line();
+        for (int i=1;i<=2;i++){
+            for (int j=1;j<=3;j++){
+                System.out.print("|");
+                for (int k=1;k<=j-1;k++){
+                    System.out.print(" ");
+                }
+                System.out.print("V");
+                for (int k=1;k<=6-j*2;k++){
+                    System.out.print(" ");
+                }
+                System.out.print("V");
+                for (int k=1;k<=j-1;k++){
+                    System.out.print(" ");
+                }
+                System.out.print("|");
+                System.out.println();
+            }
+        }
+        propro2line();
+    }
+    public static void propro2line(){
+        System.out.print("+");
+        for (int i=1;i<=6;i++){
+            System.out.print("-");
+        }
+        System.out.print("+");
+        System.out.println();
+    }
+}
+
+
