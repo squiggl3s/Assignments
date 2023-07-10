@@ -1,0 +1,566 @@
+public class HashIntSet {
+    //1
+    public void addAll(HashIntSet other){
+        for (int i=0;i<other.elementData.length;i++){
+            HashEntry temp = other.elementData[i];
+            while (temp!=null){
+                add(temp.getData());
+                temp = temp.getNext();
+            }
+        }
+    }
+    //2
+    public boolean containsAll(HashIntSet other){
+        for (int i=0;i<other.elementData.length;i++){
+            HashEntry temp = other.elementData[i];
+            while (temp!=null){
+                if (!contains(temp.getData())){
+                    return false;
+                }
+                temp = temp.getNext();
+            }
+        }
+        return true;
+    }
+    //3
+    public boolean equals(HashIntSet other){
+        return containsAll(other)&&other.containsAll(this);
+    }
+    //4
+    public void removeAll(HashIntSet other){
+        for (int i=0;i<other.elementData.length;i++){
+            HashEntry temp = other.elementData[i];
+            while (temp!=null){
+                if (contains(temp.getData())){
+                   remove(temp.getData()); 
+                }
+                temp = temp.getNext();
+            }
+        }
+    }
+    //5
+    public void retainAll(HashIntSet other){
+        for (int i=0;i<elementData.length;i++){
+            HashEntry temp = elementData[i];
+            while (temp!=null){
+                if (!other.contains(temp.getData())){
+                    remove(temp.getData());
+                }
+                temp = temp.getNext();
+            }
+        }
+    }
+    //6
+    public int[] toArray(){
+        int a[] = new int[size];
+        int count = 0;
+        for (int i=0;i<elementData.length;i++){
+            HashEntry temp = elementData[i];
+            while (temp!=null){
+                a[count]=temp.getData();
+                count++;
+                temp = temp.getNext();
+            }
+        }
+        return a;
+    }
+    //7 
+    public String toString() {
+        int a[] = toArray();
+        String s = "[";
+        for (int i=0;i<a.length;i++){
+            s+=a[i];
+            if (i!=a.length-1){
+                s+=", ";
+            }
+        }
+        return s+"]";
+    }
+    //Code from Book
+    private static final double MAX_LOAD_FACTOR = 0.75;
+    private HashEntry[] elementData;
+    private int size;
+    public HashIntSet() {
+        elementData = new HashEntry[10];
+        size = 0;
+    }
+    public void add(int value) {
+        if (!contains(value)) {
+            if (loadFactor() >= MAX_LOAD_FACTOR) {
+                rehash();
+            }
+            int bucket = hashFunction(value);
+            elementData[bucket] = new HashEntry(value, elementData[bucket]);
+            size++;
+        }
+    }
+    public void clear() {
+        for (int i = 0; i < elementData.length; i++) {
+            elementData[i] = null;
+        }
+        size = 0;
+    }
+    public boolean contains(int value) {
+        int bucket = hashFunction(value);
+        HashEntry current = elementData[bucket];
+        while (current != null) {
+            if (current.getData() == value) {
+                return true;
+            }
+            current = current.getNext();
+        }
+        return false;
+    }
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    public void remove(int value) {
+        int bucket = hashFunction(value);
+        if (elementData[bucket] != null) {
+            if (elementData[bucket].data == value) {
+                elementData[bucket] = elementData[bucket].getNext();
+                size--;
+            } else {
+                HashEntry current = elementData[bucket];
+                while (current.getNext()!= null && current.getNext().getData() != value) {
+                    current = current.getNext();
+                }
+                if (current.getNext()!= null && current.getNext().getData() == value) {
+                    current.setNext(current.getNext().getNext());
+                    size--;
+                }
+            }
+        }
+    }
+    public int size() {
+        return size;
+    }
+    private int hashFunction(int value) {
+        return Math.abs(value) % elementData.length;
+    }
+    private double loadFactor() {
+        return (double) size / elementData.length;
+    }
+    private void rehash() {
+        HashEntry[] oldElementData = elementData;
+        elementData = new HashEntry[2 * oldElementData.length];
+        size = 0;
+        for (int i = 0; i < oldElementData.length; i++) {
+            HashEntry current = oldElementData[i];
+            while (current != null) {
+                add(current.data);
+                current = current.next;
+            }
+        }
+    }
+    private class HashEntry {
+        public int data;
+        public HashEntry next;
+        public HashEntry(int data) {
+            this(data, null);
+        }
+        public HashEntry(int data, HashEntry next) {
+            this.data = data;
+            this.next = next;
+        }
+        public void setNext(HashEntry next){
+            this.next = next;
+        }
+        public void setData(int data){
+            this.data = data;
+        }
+        public HashEntry getNext(){
+            return next;
+        }
+        public int getData(){
+            return data;
+        }
+    }
+}
+
+
+
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+public class HeapIntPQ {
+    //13
+    public int[] toArray(){
+        int a[] = new int[size];
+        for (int i=0;i<size;i++){
+            a[i] = elementData[i+1];
+        }
+        return a;
+    }
+    //14
+    public String toString(){
+        String s = "[";
+        int a[] = toArray();
+        for (int i=0;i<a.length;i++){
+            s+=a[i];
+            if (i!=a.length-1){
+                s+=", ";
+            }
+        }
+        return s+"]";
+    }
+    //15
+    public void merge(HeapIntPQ other){
+        int a[] = other.toArray();
+        for (int i=0;i<a.length;i++){
+            add(a[i]);
+        }
+    }
+    //Code from book
+    private int[] elementData;
+    private int size;
+    // Constructs an empty queue.
+    public HeapIntPQ() {
+        elementData = new int[10];
+        size = 0;
+    }
+    // Adds the given element to this queue.
+    public void add(int value) {
+        // resize if necessary
+        if (size + 1 >= elementData.length) {
+            elementData = Arrays.copyOf(elementData, elementData.length * 2);
+        }
+        // insert as new rightmost leaf
+        elementData[size + 1] = value;
+        // "bubble up" toward root as necessary to fix ordering
+        int index = size + 1;
+        while (hasParent(index)) {
+            int parent = parent(index);
+            if (elementData[index] < elementData[parent]) {
+                swap(elementData, index, parent(index));
+                index = parent(index);
+            } else {
+                break;  // proper place found; terminate the loop
+            }
+        }
+        size++;
+    }
+    // Returns true if there are no elements in this queue.
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    // Returns the minimum value in the queue without modifying the queue.
+    // If the queue is empty, throws a NoSuchElementException.
+    public int peek() {
+        if (isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return elementData[1];
+    }
+    // Removes and returns the minimum value in the queue.
+    // If the queue is empty, throws a NoSuchElementException.
+    public int remove() {
+        int result = peek();
+        // move rightmost leaf to become new root
+        swap(elementData, 1, size);
+        size--;
+        // "bubble down" root as necessary to fix ordering
+        bubbleDown(1);
+        return result;
+    }
+    // Swaps the element at the given index as necessary to fix ordering.
+    private void bubbleDown(int index) {
+        while (hasLeftChild(index)) {
+            int left = leftChild(index);
+            int right = rightChild(index);
+            int child = left;
+            if (hasRightChild(index) &&
+                    elementData[right] < elementData[left]) {
+                child = right;
+            }
+            if (elementData[index] > elementData[child]) {
+                swap(elementData, index, child);
+                index = child;
+            } else {
+                break;  // proper place found; terminate the loop
+            }
+        }
+    }
+    // Returns the number of elements in the queue.
+    public int size() {
+        return size;
+    }
+    // helpers for navigating indexes up/down the tree
+    private int parent(int index) {
+        return index / 2;
+    }
+    private int leftChild(int index) {
+        return index * 2;
+    }
+    private int rightChild(int index) {
+        return index * 2 + 1;
+    }
+    private boolean hasParent(int index) {
+        return index > 1;
+    }
+    private boolean hasLeftChild(int index) {
+        return leftChild(index) <= size;
+    }
+    private boolean hasRightChild(int index) {
+        return rightChild(index) <= size;
+    }
+    private void swap(int[] a, int index1, int index2) {
+        int temp = a[index1];
+        a[index1] = a[index2];
+        a[index2] = temp;
+    }
+    public static void heapSort(int[] a) {
+        HeapIntPQ pq = new HeapIntPQ();
+        pq.elementData = a;
+        pq.size = a.length - 1;
+        System.out.println("start : " + Arrays.toString(a));
+        for (int i = a.length / 2; i >= 0; i--) {
+            pq.bubbleDown(i);
+            System.out.println("bubble: " + Arrays.toString(a));
+        }
+        while (!pq.isEmpty()) {
+            pq.remove();
+            System.out.println("remove: " + Arrays.toString(a));
+        }
+    }
+}
+
+
+
+import java.util.*;
+public class chapt18{
+    //8
+    public static void descending(int[] a){
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+        for (int i=0;i<a.length;i++){
+            pq.add(a[i]);
+        }
+        Stack<Integer> s = new Stack<Integer>();
+        for (int i=0;i<a.length;i++){
+            s.push(pq.remove());
+        }
+        for (int i=0;i<a.length;i++){
+            a[i] = s.pop();
+        }
+    }
+    //9
+    public static int kthSmallest(PriorityQueue pq, int k){
+        Queue<Integer> q = new LinkedList<Integer>();
+        for (int i=0;i<k-1;i++){
+            q.add((int)pq.remove());
+        }
+        int temp = (int)pq.remove();
+        q.add(temp);
+        for (int i=0;i<k;i++){
+            pq.add(q.remove());
+        }
+        return temp;
+    }
+    //10
+    public static boolean isConsecutive(PriorityQueue pq){
+        boolean yes = true;
+        Queue<Integer> q = new LinkedList<Integer>();
+        int oldSize = pq.size(), prev = 0;
+        for (int i=0;i<oldSize;i++){
+            if (i==0){
+                prev = (int)pq.remove();
+                q.add(prev);
+            } else {
+                int current = (int)pq.remove();
+                q.add(current);
+                yes = yes && (current-1==prev);
+                prev = current;
+            }
+        }
+        for (int i=0;i<oldSize;i++){
+            pq.add(q.remove());
+        }
+        return yes;
+    }
+    //11
+    public static void removeDuplicates(PriorityQueue pq){
+        Queue<Integer> q = new LinkedList<Integer>();
+        int oldSize = pq.size(), prev = 0;
+        for (int i=0;i<oldSize;i++){
+            if (i==0){
+                prev = (int)pq.remove();
+                q.add(prev);
+            } else {
+                int current = (int)pq.remove();
+                if (current!=prev){
+                    q.add(current);
+                }
+                prev = current;
+            }
+        }
+        oldSize = q.size();
+        for (int i=0;i<oldSize;i++){
+            pq.add(q.remove());
+        }
+    }
+    //12
+    public static void stutter(PriorityQueue pq){
+        Queue<Integer> q = new LinkedList<Integer>();
+        int oldSize = pq.size();
+        for (int i=0;i<oldSize;i++){
+            int temp = (int)pq.remove();
+            q.add(temp);q.add(temp);
+        }
+        oldSize = q.size();
+        for (int i=0;i<oldSize;i++){
+            pq.add(q.remove());
+        }
+    }
+    // Chapter 18 Exercises MAIN
+    public static void main() {
+    
+        //======================================================
+        //             —------- Chap 18.1 hash Tables   Ex #1-7   —------- 
+        //======================================================
+        System.out.println("\n      —------- Chap 18.1 hash Tables   Ex #1-7   —-------  \n");                                                                                                                                                                                                                                                                                    
+        HashIntSet his1 = new HashIntSet();
+        HashIntSet his2 = new HashIntSet();
+        HashIntSet his3 = new HashIntSet();
+        HashIntSet his4 = new HashIntSet();
+        HashIntSet his5 = new HashIntSet();
+
+
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 1:");
+        his1.add(2); his1.add(3); his1.add(6); his1.add(44); his1.add(79);
+        his2.add(-5); his2.add(1); his2.add(2); his2.add(3);
+        System.out.println(" his1 Before:");
+        System.out.println("his1: " + his1);
+        his1.addAll(his2);
+        System.out.println("his1 After:");
+        System.out.println("his1: " + his1);
+        System.out.println("\n"); 
+
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 2:");
+        his1.add(-2);    his1.add(3); his1.add(5); his1.add(6); his1.add(8);
+        his2.add(3);    his2.add(6); his2.add(8);
+        his3.add(3); his3.add(6); his3.add(7); his3.add(8);
+        System.out.println( "\t his1: " + his1);
+        System.out.println( "\t his2: " + his2);
+        System.out.println( "\t his3: " + his3);
+         System.out.println("his1.containsAll(his2): " + his1.containsAll(his2));
+         System.out.println("his1.containsAll(his3): " + his1.containsAll(his3));
+         System.out.println("\n");      
+
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 3:");
+        his1.add(1);    his1.add(2); his1.add(3);
+        his2.add(2);    his2.add(3); his2.add(1);
+        his3.add(1); his3.add(2); his3.add(3); his3.add(4);
+           System.out.println( "\t his1: " + his1);
+           System.out.println( "\t his2: " + his2);
+           System.out.println( "\t his3: " + his3);
+         System.out.println("his1.equals(his2): " + his1.equals(his2));
+         System.out.println("his1.equals(his3): " + his1.equals(his3));
+         System.out.println("\n");  
+
+
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 4:");
+        his1.add(-2);    his1.add(3); his1.add(5); his1.add(6); his1.add(8);
+        his2.add(2);    his2.add(3); his2.add(6);   his2.add(8); his2.add(11);
+        System.out.println( "\t his1: " + his1);
+        System.out.println( "\t his2: " + his2);
+        System.out.println(" his1 Before:");
+        System.out.println( "\t his1: " + his1);
+        his1.removeAll(his2);
+        System.out.println("his1 After:");
+        System.out.println("\t his1: " + his1);
+        System.out.println("\n"); 
+
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 5:");
+        his1.add(-2);    his1.add(3); his1.add(5); his1.add(6); his1.add(8);
+        his2.add(2);    his2.add(3); his2.add(6);  his2.add(8); his2.add(11); 
+        System.out.println( "\t his1: " + his1);
+        System.out.println( "\t his2: " + his2);
+        System.out.println(" his1 Before:");
+        System.out.println("\t his1: " + his1);
+        his1.retainAll(his2);
+        System.out.println("his1 After:");
+        System.out.println("\t his1: " + his1);
+        System.out.println("\n"); 
+
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 6:");
+        his1.add(2);    his1.add(3); his1.add(6); his1.add(44); his1.add(79);
+   
+        System.out.println("his1: " + his1);
+        int his1Array[] = his1.toArray();  
+        System.out.println("his1.toArray: ");
+    System.out.print(his1Array[0] );
+        for (int i=1; i<his1Array.length; i++){
+            System.out.print("," + his1Array[i] );
+        }
+        System.out.println("\n\n"); 
+
+
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 7:");
+        his1.add(-2);    his1.add(3); his1.add(5); his1.add(6); his1.add(8);
+   
+        System.out.println("his1: " + his1);
+        System.out.println("his1.toString: " + his1.toString());
+        System.out.println("\n\n"); 
+        
+
+        //======================================================
+        // —------- Chap 18.2 Heaps/Priority Queues   Ex #8 - 12 —--------
+        //======================================================
+        //  —---------------------------------------------------------------------------------------
+        System.out.println("Exercise 8");
+        int[] nums = {42, 9, 22, 17, -3, 81};
+        System.out.println("Before:");
+        System.out.println(Arrays.toString(nums));
+        descending(nums);
+        System.out.println("After:");
+        for(int stuff: nums) {
+            System.out.print(stuff + ", ");
+        }
+        System.out.println("\n"); 
+
+        //======================================================
+        System.out.println("Exercise 9");
+        PriorityQueue<Integer> priority = new PriorityQueue<Integer>(Arrays.asList(42, 50, 45, 78, 61));
+        int result = kthSmallest(priority, 4);
+        System.out.println(result);
+        System.out.println(priority);
+        System.out.println();
+
+        //======================================================
+        System.out.println("Exercise 10");
+        PriorityQueue<Integer> numbers = new PriorityQueue<Integer>(Arrays.asList(7, 8, 9, 10, 11));
+        boolean done = isConsecutive(numbers);
+        System.out.println(done);
+        System.out.println();
+
+        //======================================================
+        System.out.println("Exercise 11"); 
+        PriorityQueue<Integer> doubles = new PriorityQueue<Integer>(Arrays.asList(7, 7, 8, 8, 8, 10, 45, 45));
+        System.out.println("Before:");
+        System.out.println(doubles);
+        removeDuplicates(doubles);
+        System.out.println("After:");
+        System.out.println(doubles);
+        System.out.println();       
+
+
+        //======================================================
+        System.out.println("Exercise 12");
+        PriorityQueue<Integer> stuff = new PriorityQueue<Integer>(Arrays.asList(7, 8, 10, 45));
+        System.out.println("Before:");
+        System.out.println(stuff);
+        stutter(stuff);
+        System.out.println("After:");
+        System.out.println(stuff);
+        System.out.println();   
+    } // main
+} 
+
+
