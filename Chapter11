@@ -1,0 +1,582 @@
+import java.util.*;
+import java.io.*;
+public class chapter11ex{
+    //1
+    public static List<Integer> Sieve(int max){
+        List<Integer> primes = new LinkedList<Integer>();
+        List<Integer> numbers = new LinkedList<Integer>();
+        numbers.add(2);
+        for (int i=3;i<=max/2+1;i++){
+            numbers.add(i*2-3);
+        }
+        while (!numbers.isEmpty()&&(int)Math.sqrt(numbers.get(0))!=Math.sqrt(max)){
+            int front = numbers.remove(0);
+            primes.add(front);
+            Iterator<Integer> itr = numbers.iterator();
+            while (itr.hasNext()){
+                int current = itr.next();
+                if (current%front==0){
+                    itr.remove();
+                }
+            }
+        }
+        return primes;
+    }
+    //2
+    public static List<Integer> alternate(List<Integer> l1, List<Integer> l2){
+        List<Integer> alter = new LinkedList<Integer>();
+        Iterator<Integer> i1 = l1.iterator();
+        Iterator<Integer> i2 = l2.iterator();
+        while (i1.hasNext()||i2.hasNext()){
+            if (i1.hasNext()){
+                alter.add(i1.next());
+            } 
+            if (i2.hasNext()){
+                alter.add(i2.next());
+            }
+        }
+        return alter;
+    }
+    //3
+    public static void removeInRange(LinkedList<Integer> list, int n, int index1, int index2){
+        Iterator<Integer> itr = list.iterator();
+        for (int i=0;i<index1-1;i++){
+            if (itr.hasNext()){
+                itr.next();
+            }
+        }
+        for (int i=index1;i<=index2;i++){
+            if (itr.hasNext()){
+                if (itr.next()==n){
+                    itr.remove();
+                }
+            }
+        }
+    }
+    //4
+    public static void partition(List<Integer> list, int n){
+        Iterator<Integer> itr = list.iterator();
+        List<Integer> temp = new LinkedList<Integer>();
+        while (itr.hasNext()){
+            int current = itr.next();
+            if (current>n){
+                itr.remove();
+                temp.add(current);
+            }
+        }
+        list.addAll(temp);
+    }
+    //5
+    public static List<Integer> sortAndRemoveDuplicates(List<Integer> list){
+        Set<Integer> set = new TreeSet<Integer>(list);
+        list.clear();
+        for (int n:set){
+            list.add(n);
+        }
+        return list;
+    }
+    //6
+    public static int countUnique(List<Integer> list){
+        Set<Integer> set = new HashSet<Integer>();
+        Iterator<Integer> itr = list.iterator();
+        while (itr.hasNext()){
+            set.add(itr.next());
+        }
+        return set.size();
+    }
+    //7
+    public static int countCommon(List<Integer> l1, List<Integer> l2){
+        Set<Integer> intersection = new HashSet<Integer>(l1);
+        intersection.retainAll(l2);
+        return intersection.size();
+    }
+    //8
+    public static int maxLength(Set<String> set){
+        Iterator<String> itr = set.iterator();
+        int length = 0;
+        while (itr.hasNext()){
+            length = Math.max(length, itr.next().length());
+        }
+        return length;
+    }
+    //9
+    public static boolean hasOdd(Set<Integer> set){
+        Iterator<Integer> itr = set.iterator();
+        if (set.size()==0){
+            return false;
+        }
+        while (itr.hasNext()){
+            if (itr.next()%2!=0){
+                return true;
+            }
+        }
+        return false;
+    }
+    //10
+    public static void removeEvenLength(Set<String> set){
+        Iterator<String> itr = set.iterator();
+        while (itr.hasNext()){
+            if (itr.next().length()%2==0){
+                itr.remove();
+            }
+        }
+    }
+    //11
+    public static Set<Integer> symmetricSetDifference(Set<Integer> s1, Set<Integer> s2){
+        Set<Integer> difference = new TreeSet<Integer>(s1);
+        difference.removeAll(s2);
+        Set<Integer> difference2 = new TreeSet<Integer>(s2);
+        difference2.removeAll(s1);
+        difference.addAll(difference2);
+        return difference;
+    }
+    //12
+    public static boolean contains3(List<String> list){
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        Iterator<String> itr = list.iterator();
+        while (itr.hasNext()){
+            String next = itr.next();
+            if (map.containsKey(next)){
+                map.put(next, map.get(next)+1);
+            } else {
+                map.put(next, 1);
+            }
+        }
+        return map.containsValue(3);
+    }
+    //13
+    public static boolean isUnique(Map<String, String> map){
+        Set<String> set = new HashSet<String>(map.values());
+        return (set.size()==map.values().size());
+    }
+    //14
+    public static Map<String, Integer> intersect(Map<String, Integer> map1, Map<String, Integer> map2){
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        for (String s: map1.keySet()){
+            if (map2.containsKey(s)&&(map2.get(s)==map1.get(s))){
+                map.put(s, map2.get(s));
+            }
+        }
+        return map;
+    }
+    //15
+    public static int maxOccurences(List<Integer> list){
+        Iterator<Integer> itr = list.iterator();
+        Map<Integer, Integer> count = new HashMap<Integer, Integer>();
+        while (itr.hasNext()){
+            int next = itr.next();
+            if (count.containsKey(next)){
+                count.put(next, count.get(next)+1);
+            } else {
+                count.put(next, 1);
+            }
+        }
+        int max = 0;
+        for (int i:count.values()){
+            max = Math.max(max, i);
+        }
+        return max;
+    }
+    //16
+    public static boolean is1to1(Map<String,String> map){
+        Set<String> set = new HashSet<String>(map.values());
+        return (set.size()==map.values().size());
+    }
+    //17 
+    public static boolean subMap(Map<String, String> superm, Map<String, String> subm){
+        for (String s: subm.keySet()){
+            if ((!superm.containsKey(s))||superm.get(s)!=subm.get(s)){
+                return false;
+            }
+        }
+        return true;
+    }
+    //18
+    public static Map<String, Set<Integer>> reverse(Map<Integer, String> map){
+        Map<String, Set<Integer>> reverseMap = new HashMap<String, Set<Integer>>();
+        for (int n: map.keySet()){
+            String value = map.get(n);
+            if (reverseMap.containsKey(value)){
+                reverseMap.get(value).add(n);
+            } else {
+                Set<Integer> list = new HashSet<Integer>();
+                list.add(n);
+                reverseMap.put(value, list); 
+            }
+        }
+        return reverseMap;
+    }
+    //19
+    public static int rarest(Map<String, Integer> map){
+        Map<Integer, Integer> newm = new TreeMap<Integer, Integer>();
+        for (int n: map.values()){
+            if (newm.containsKey(n)){
+                newm.put(n, newm.get(n)+1);
+            } else {
+                newm.put(n, 1);
+            }
+        }
+        Iterator<Integer> itr = newm.values().iterator();
+        int smallest = itr.next();
+        while (itr.hasNext()){
+            smallest = Math.min(smallest, itr.next());
+        }
+        for (int n: newm.keySet()){
+            if (newm.get(n)==smallest){
+                return n;
+            }
+        }
+        return -1;
+    }
+    public static void main() throws FileNotFoundException
+    {
+        System.out.println("Chapter 11 Exercises \n");
+
+        System.out.println("\n\nExercise 1:");
+        //Beginning of code
+        int max=50;
+        System.out.println("This program will tell you all prime");
+        System.out.println("numbers up to a given maximum.");
+        System.out.println();
+        
+        System.out.println("Maximum number? "+max);
+
+        List<Integer> primes = Sieve(max);
+        System.out.println("Prime numbers up to " + max + ":");
+        System.out.println(primes);
+        //End of code
+        
+        System.out.println("\n\nExercise 2:");
+        List<Integer> intLinked=new LinkedList<Integer>();
+        intLinked.add(1);
+        intLinked.add(2);
+        intLinked.add(3);
+        intLinked.add(4);
+        intLinked.add(5);
+        List<Integer> intArray=new ArrayList<Integer>();
+        intArray.add(6);
+        intArray.add(7);
+        intArray.add(8);
+        intArray.add(9);
+        intArray.add(10);
+        intArray.add(11);
+        intArray.add(12);
+        System.out.println("List 1:");
+        System.out.println(intLinked);
+        System.out.println("List 2:");
+        System.out.println(intArray);
+        System.out.println("New List:");
+        System.out.println(alternate(intLinked, intArray));
+        
+        System.out.println("\n\nExercise 3:");
+        intLinked.clear();
+        intLinked.add(0);
+        intLinked.add(0);
+        intLinked.add(2);
+        intLinked.add(0);
+        intLinked.add(4);
+        intLinked.add(0);
+        intLinked.add(6);
+        intLinked.add(0);
+        intLinked.add(8);
+        intLinked.add(0);
+        intLinked.add(10);
+        intLinked.add(0);
+        intLinked.add(12);
+        intLinked.add(0);
+        intLinked.add(14);
+        intLinked.add(0);
+        intLinked.add(16);
+        System.out.println("Original: "+intLinked);
+        removeInRange((LinkedList) intLinked, 0, 5, 13);
+        System.out.println("New: "+intLinked);
+        
+        System.out.println("\n\nExercise 4:");
+        intLinked.clear();
+        intLinked.add(15);
+        intLinked.add(1);
+        intLinked.add(6);
+        intLinked.add(12);
+        intLinked.add(-3);
+        intLinked.add(4);
+        intLinked.add(8);
+        intLinked.add(21);
+        intLinked.add(2);
+        intLinked.add(30);
+        intLinked.add(-1);
+        intLinked.add(9);
+        System.out.println("Original: "+intLinked);
+        partition(intLinked, 5);
+        System.out.println("New: "+intLinked);
+        
+        System.out.println("\n\nExercise 5:");
+        intLinked.clear();
+        intLinked.add(7);
+        intLinked.add(4);
+        intLinked.add(-9);
+        intLinked.add(4);
+        intLinked.add(15);
+        intLinked.add(8);
+        intLinked.add(27);
+        intLinked.add(7);
+        intLinked.add(11);
+        intLinked.add(-5);
+        intLinked.add(32);
+        intLinked.add(-9);
+        intLinked.add(-9);
+        System.out.println("Original: "+intLinked);
+        sortAndRemoveDuplicates(intLinked);
+        System.out.println("New: "+intLinked);
+        
+        System.out.println("\n\nExercise 6:");
+        intLinked.clear();
+        intLinked.add(3);
+        intLinked.add(7);
+        intLinked.add(3);
+        intLinked.add(-1);
+        intLinked.add(2);
+        intLinked.add(3);
+        intLinked.add(7);
+        intLinked.add(2);
+        intLinked.add(15);
+        intLinked.add(15);
+        System.out.println("Original: "+intLinked);
+        System.out.println("Returns: "+countUnique(intLinked));
+        
+        System.out.println("\n\nExercise 7:");
+        intLinked.clear();
+        intLinked.add(3);
+        intLinked.add(7);
+        intLinked.add(3);
+        intLinked.add(-1);
+        intLinked.add(2);
+        intLinked.add(3);
+        intLinked.add(7);
+        intLinked.add(2);
+        intLinked.add(15);
+        intLinked.add(15);
+        intArray.clear();
+        intArray.add(-5);
+        intArray.add(15);
+        intArray.add(2);
+        intArray.add(-1);
+        intArray.add(7);
+        intArray.add(15);
+        intArray.add(36);
+        System.out.println("List1: \n"+intLinked);
+        System.out.println("List2: \n"+intArray);
+        System.out.println("Returns: "+
+        countCommon(intLinked, intArray));
+        
+        System.out.println("\n\nExercise 8:");
+        Set<String> strHash=new HashSet<String>();
+        strHash.add("Lorem");
+        strHash.add("ipsum");
+        strHash.add("dolor");
+        strHash.add("sit");
+        strHash.add("amet,");
+        strHash.add("consectetur");
+        strHash.add("adipiscing");
+        strHash.add("elit.");
+        strHash.add("Cras");
+        strHash.add("at");
+        System.out.println("Original: "+strHash);
+        System.out.println("Returns: "+maxLength(strHash));
+        
+        System.out.println("\n\nExercise 9:");
+        Set<Integer> intHash=new HashSet<Integer>();
+        intHash.add(2);
+        intHash.add(3);
+        intHash.add(4);
+        intHash.add(6);
+        intHash.add(8);
+        System.out.println("Original: "+intHash);
+        System.out.println("Returns: "+hasOdd(intHash));
+        
+        System.out.println("\n\nExercise 10:");
+        System.out.println("Original: "+strHash);
+        removeEvenLength(strHash);
+        System.out.println("New: "+strHash);
+        
+        System.out.println("\n\nExercise 11:");
+        intHash.clear();
+        intHash.add(1);
+        intHash.add(4);
+        intHash.add(7);
+        intHash.add(9);
+        Set<Integer> intTree=new TreeSet<Integer>();
+        intTree.add(2);
+        intTree.add(4);
+        intTree.add(5);
+        intTree.add(6);
+        intTree.add(7);
+        System.out.println("Original: \nP1-"+intHash+"\nP2-"+intTree);
+        System.out.println("Returns: "+symmetricSetDifference
+        (intHash, intTree));
+        
+        System.out.println("\n\nExercise 12:");
+        List<String> strLinked=new LinkedList<String>();
+        strLinked.clear();
+        strLinked.add("A");
+        strLinked.add("B");
+        strLinked.add("A");
+        strLinked.add("C");
+        strLinked.add("D");
+        strLinked.add("A");
+        System.out.println("Original: "+strLinked);
+        System.out.println("Returns: "+contains3(strLinked));
+        
+        System.out.println("\n\nExercise 13:");
+        Map<String, String> stringmap = new HashMap<String, String>();
+        stringmap.put("Marty", "Stepp");
+        stringmap.put("Stuart", "Reges");
+        stringmap.put("Jesscia", "Perkins");
+        stringmap.put("Amanda", "Camp");
+        stringmap.put("Hal", "Perkins");
+        System.out.println("Original: "+stringmap);
+        System.out.println("Returns: "+isUnique(stringmap));
+        
+        System.out.println("\n\nExercise 14:");
+        Map<String, Integer> strIntHash=new HashMap<String, Integer>();
+        strIntHash.put("Janet", 87);
+        strIntHash.put("Logan", 62);
+        strIntHash.put("Whittaker", 46);
+        strIntHash.put("Alyssa", 100);
+        strIntHash.put("Stefanie", 80);
+        strIntHash.put("Jeff", 88);
+        strIntHash.put("Kim", 52);
+        strIntHash.put("Sylvia", 95);
+        Map<String, Integer> strIntTree=new TreeMap<String, Integer>();
+        strIntTree.put("Logan", 62);
+        strIntTree.put("Kim", 52);
+        strIntTree.put("Whitaker", 52);
+        strIntTree.put("Jeff", 88);
+        strIntTree.put("Stefanie", 80);
+        strIntTree.put("Brian", 60);
+        strIntTree.put("Lisa", 83);
+        strIntTree.put("Sylvia", 87);
+        System.out.println("Original: \nP1-"+strIntHash+"\nP2-"+
+        strIntTree);
+        System.out.println("Returns: "+intersect
+        (strIntHash, strIntTree));
+        
+        System.out.println("\n\nExercise 15:");
+        List<Integer> mode = new LinkedList<Integer>();
+        mode.add(1); mode.add(2); mode.add(2); mode.add(2); mode.add(3); 
+        mode.add(4); mode.add(3); mode.add(2); mode.add(5); mode.add(1); 
+        System.out.println("Original: "+mode);
+        System.out.println("Returns: "+maxOccurences(mode));
+        
+        System.out.println("\n\nExercise 16:");
+        System.out.println("Original: "+stringmap);
+        System.out.println("Returns: "+is1to1(stringmap));
+        
+        System.out.println("\n\nExercise 17:");
+        Map<String, String> strStrHash=new HashMap<String, String>();
+        strStrHash.put("Smith", "949-0504");
+        strStrHash.put("Marty", "206-9024");
+        Map<String, String> strStrTree=new TreeMap<String, String>();
+        strStrTree.put("Marty", "206-9024");
+        strStrTree.put("Hawking", "123-4567");
+        strStrTree.put("Smith", "949-0504");
+        strStrTree.put("Newton", "123-4567");
+        System.out.println("Original: \nP1-"+strStrHash+"\nP2-"+
+        strStrTree);
+        System.out.println("Returns: "+subMap(strStrHash, strStrTree));
+        
+
+        System.out.println("\n\nExercise 18:");
+        Map<Integer, String> originalHash=new HashMap<Integer, String>();
+        originalHash.put(42,"Marty");   originalHash.put(81,"Sue");  originalHash.put(17,"Ed");
+        originalHash.put(31,"Dave");   originalHash.put(56,"Ed");  originalHash.put(3,"Marty");
+        originalHash.put(29,"Ed");  
+        System.out.println("Original: \n"+originalHash);
+        System.out.println("Returns: "+reverse(originalHash));
+
+        System.out.println("\n\nExercise 19:");
+        Map<String, Integer> nameIntHash=new HashMap<String, Integer>();
+        nameIntHash.put("A",1);   nameIntHash.put("B",1);   nameIntHash.put("C",2);             
+        nameIntHash.put("D",1);   nameIntHash.put("E",2);   nameIntHash.put("F",2);   
+        nameIntHash.put("G",3);   nameIntHash.put("H",4);   nameIntHash.put("J",4);             
+        System.out.println("Original: \n"+nameIntHash);
+        System.out.println("Returns: "+rarest(nameIntHash));
+    }
+}
+
+
+import java.util.*;
+public class chapter11SC{
+    public static void main(){
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        list.add(0);list.add(0);list.add(2);list.add(3);list.add(3);
+        list.add(3);list.add(3);list.add(7);list.add(7);list.add(7);
+        System.out.println(list);
+        System.out.println(modifiedSC4(list));
+    }
+    //SC#4
+    public static int countDuplicated(LinkedList<Integer> list){
+        Iterator<Integer> itr = list.iterator();
+        int n = itr.next(), count = 0;
+        while (itr.hasNext()){
+            int i = itr.next();
+            if (i==n){
+                count++;
+            } else {
+                n=i;
+            }
+        }
+        return count;
+    }
+    //SC#5
+    public static void addByOrder(LinkedList<String> list, String s){
+        Iterator<String> itr = list.iterator();
+        String next = itr.next();
+        int index = 0;
+        while (itr.hasNext()&&next.compareTo(s)<0){
+            next = itr.next();
+            index++;
+        }
+        list.add(index, s);
+    }
+    //SC#6
+    public static void removeAll(LinkedList<Integer> list, int n){
+        Iterator<Integer> itr = list.iterator();
+        while (itr.hasNext()){
+            int i = itr.next();
+            if (i==n){
+                itr.remove();
+            }
+        }
+    }
+    //SC#7
+    public static void wrapHalf(LinkedList<Integer> list){
+        int half = list.size()/2;
+        for (int i=0;i<half;i++){
+            int n = list.remove(0);
+            list.add(n);
+        }
+    }
+    //SC#9
+    public static int modifiedSC4(List<Integer> list){
+        Iterator<Integer> itr = list.iterator();
+        int n = itr.next(), count = 0;
+        while (itr.hasNext()){
+            int i = itr.next();
+            if (i==n){
+                count++;
+            } else {
+                n=i;
+            }
+        }
+        return count;
+    }
+    //SC#22
+    public static void reverseMap(Map<String, Integer> wordCount){
+        Map<Integer, String> reverseMap = new TreeMap<Integer, String>();
+        for (String key:wordCount.keySet()){
+            reverseMap.put(wordCount.get(key), key);
+        }
+        System.out.println(reverseMap);
+    }
+}
+
