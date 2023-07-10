@@ -1,0 +1,334 @@
+import java.util.*;
+public class ArrayIntList {
+    //1
+    public int lastIndexOf(int value){
+        for (int i=size-1;i>=0;i--){
+            if (elementData[i]==value){
+                return i;
+            }
+        }
+        return -1;
+    }
+    //2
+    public int indexSubList(ArrayIntList L){
+        boolean test;
+        int position=-1;
+        for (int i=0;i<size-L.size;i++){
+            test=true;
+            for (int j=0;j<L.size;j++){
+                if(elementData[i]!=L.elementData[j]){
+                    test=false;
+                    break;
+                }
+            }
+            if(test){
+                position=i;
+            }
+        }
+        return position;
+    }
+    //3
+    public void replaceAll(int n, int n2){
+        for (int i=0;i<size;i++){
+            if (elementData[i]==n){
+                set(i, n2);
+            }
+        }
+    }
+    //4
+    public void reverse(){
+        for (int i=0;i<size/2;i++){
+            int n = elementData[i];
+            set(i, elementData[size-1-i]);
+            set(size-1-i, n);
+        }
+    }
+    //5
+    public ArrayIntList runningTotal(){
+        ArrayIntList list = new ArrayIntList();
+        list.add(elementData[0]);
+        for (int i=1;i<size;i++){
+            list.add(elementData[i-1]+elementData[i]);
+        }
+        return list;
+    }
+    //6
+    public void fill(int value){
+        for (int i=0;i<size;i++){
+            set(i, value);
+        }
+    }
+    //7
+    public boolean isPairwiseSorted(){
+        for (int i=0;i<size/2;i++){
+            if (elementData[i]>elementData[i+1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    //8
+    public int count(int value){
+        int count = 0;
+        for (int n:elementData){
+            if (n==value){
+                count++;
+            }
+        }
+        return count;
+    }
+    //9
+    public int maxCount(){
+        int maxCount = 0;
+        for (int i=0;i<size;i++){
+            maxCount = Math.max(maxCount, count(elementData[i]));
+        }
+        return maxCount;
+    }
+    //10
+    public int longestSortedSequence(){
+        int count=0,max=0;
+        for (int i=0;i<size-1;i++){
+            while (elementData[i]>elementData[i+1]){
+                max++;
+                i++;
+            }
+            count=Math.max(max, count);
+        }
+        return count;
+    }
+    //11
+    public int removeLast(){
+        if(isEmpty()){
+            throw new NoSuchElementException();
+        } 
+        int last = elementData[size-1];
+        remove(size-1);
+        return last;
+    }
+    //12
+    public void removeFront(int value){
+        if (value>size){
+            throw new IllegalArgumentException();
+        }
+        for (int i=1;i<=value;i++){
+            remove(0);
+        }
+    }
+    //13
+    public void removeAll(int value){
+        for (int i=0;i<size;i++){
+            if (elementData[i]==value){
+                remove(i);
+                i--;
+            }
+        }
+    }
+    //14
+    public void printInversions(){
+        for (int i=0;i<size;i++){
+            for (int j=i+1;j<size;j++){
+                System.out.println("("+elementData[i]+", "+elementData[j]+")");
+            }
+        }
+    }
+    //15
+    public void mirror(){
+        ensureCapacity(size*2);
+        int s = size;
+        for (int i=s-1;i<=0;i--){
+            add(elementData[i]);
+        }
+    }
+    //16
+    public void stutter(){
+        ensureCapacity(size*2);
+        stretch(2);
+    }
+    //17
+    public void stretch(int value){
+        ensureCapacity(size*value);
+        for (int i=0;i<size;i+=value){
+            add(i, elementData[i]);
+        }
+    }
+    //18
+    public void doubleList(){
+        ensureCapacity(size*2);
+        addAll(this);
+    }
+    //19
+    public void compress(){
+        int oldSize=size;
+        for (int i=0;i<oldSize/2;i++){
+            add(elementData[i*2]+elementData[i*2+1]);
+            remove(i*2);
+            remove(i*2+1);
+        }
+    }
+    //20
+    public void rotate(){
+        int value = elementData[0];
+        remove(0);
+        add(value);
+    }
+    //21
+    public void switchPairs(){
+        for (int i=0;i<size/2;i++){
+            int n = elementData[i*2];
+            set(i*2, elementData[i*2+1]);
+            set(i*2+1, n);
+        }
+    }
+
+//code from book
+    public int sum() {
+        int total = 0;
+        for (int i = 0; i < size; i++) {
+              total += elementData[i];
+        }
+        return total;
+    }
+    public double average() {
+        if (isEmpty()) {
+            return 0.0;
+        } else {
+            return (double) sum() / size;
+        }
+    }
+    private int[] elementData; // list of integers
+    private int size;          // current number of elements in the list
+    public static final int DEFAULT_CAPACITY = 100;
+    public ArrayIntList() {
+        this(DEFAULT_CAPACITY);
+    }
+    public ArrayIntList(int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("capacity: " + capacity);
+        }
+        elementData = new int[capacity];
+        size = 0;
+    }
+    public int size() {
+        return size;
+    }
+    public int get(int index) {
+        checkIndex(index);
+        return elementData[index];
+    }
+    public String toString() {
+        if (size == 0) {
+            return "[]";
+        } else {
+            String result = "[" + elementData[0];
+            for (int i = 1; i < size; i++) {
+                result += ", " + elementData[i];
+            }
+            result += "]";
+            return result;
+        }
+    }
+    public int indexOf(int value) {
+        for (int i = 0; i < size; i++) {
+            if (elementData[i] == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    public boolean contains(int value) {
+        return indexOf(value) >= 0;
+    }
+    public void add(int value) {
+        ensureCapacity(size + 1);
+        elementData[size] = value;
+        size++;
+    }
+    public void add(int index, int value) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("index: " + index);
+        }
+        ensureCapacity(size + 1);
+        for (int i = size; i > index; i--) {
+            elementData[i] = elementData[i - 1];
+        }
+        elementData[index] = value;
+        size++;
+    }
+    public void remove(int index) {
+        checkIndex(index);
+        for (int i = index; i < size - 1; i++) {
+            elementData[i] = elementData[i + 1];
+        }
+        size--;
+    }
+    public void set(int index, int value) {
+        checkIndex(index);
+        elementData[index] = value;
+    }
+    public void clear() {
+        size = 0;
+    }
+    public void addAll(ArrayIntList other) {
+        ensureCapacity(size + other.size);
+        for (int i = 0; i < other.size; i++) {
+            add(other.elementData[i]);
+        }
+    }
+    public ArrayIntListIterator iterator() {
+        return new ArrayIntListIterator(this);
+    }
+    public void ensureCapacity(int capacity) {
+        if (capacity > elementData.length) {
+            int newCapacity = elementData.length * 2 + 1;
+            if (capacity > newCapacity) {
+                newCapacity = capacity;
+            }
+            elementData = Arrays.copyOf(elementData, newCapacity);
+        }
+    }
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("index: " + index);
+        }
+    }
+}
+
+
+//ArrayIntListIterator
+import java.util.*;
+public class ArrayIntListIterator {
+    private ArrayIntList list;
+    private int position;  
+    private boolean removeOK; 
+
+    public ArrayIntListIterator(ArrayIntList list) {
+        this.list = list;
+        position = 0;
+        removeOK = false;
+    }
+    public boolean hasNext() {
+        return position < list.size();
+    }
+    public int next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        int result = list.get(position);
+        position++;
+        removeOK = true;
+        return result;
+    }
+    public void remove() {
+        if (!removeOK) {
+            throw new IllegalStateException();
+        }
+        list.remove(position - 1);
+        position--;
+        removeOK = false;
+    }
+}
+
