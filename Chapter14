@@ -1,0 +1,372 @@
+import java.util.*;
+public class chapter14{
+    public static void main(){
+        Stack<Integer> s = new Stack<Integer>();
+        s.add(30);s.add(15);s.add(30);s.add(4);s.add(15);s.add(7);s.add(4);s.add(4);
+        System.out.println(s);
+        shift(s, 4);
+        System.out.println(s);
+        
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(10);q.add(20);q.add(30);q.add(40);q.add(50);q.add(60);
+        System.out.println(q);
+        mirrorHalves(q);
+        System.out.println(q);
+    }
+    //add remaining queue to stack or convert queue to stack
+    public static void queueToStack(Queue<Integer> q, Stack<Integer> s){
+        while (!q.isEmpty()){
+            s.push(q.remove());
+        }
+    }
+    //add remaining stack to queue or convert stack to queue
+    public static void stackToQueue(Stack<Integer> s, Queue<Integer> q){
+        while (!s.isEmpty()){
+            q.add(s.pop());
+        }
+    }
+    //1
+    public static void splitStack(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        stackToQueue(s, q);
+        int oldSize = q.size();
+        for (int i=0;i<oldSize;i++){
+            int n = q.remove();
+            if (n<0){
+                s.push(n);
+            } else {
+                q.add(n);
+            }
+        }
+        while (!q.isEmpty()){
+            s.push(q.remove());
+        }
+    }
+    //2
+    public static void stutter(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        while (!s.isEmpty()){
+            int n = s.pop();
+            q.add(n);
+            q.add(n);
+        }
+        queueToStack(q, s);
+        stackToQueue(s, q);
+        queueToStack(q, s);
+    }
+    //3
+    public static Stack<Integer> copyStack(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        Stack<Integer> s2 = new Stack<Integer>();
+        stackToQueue(s, q);
+        queueToStack(q, s);
+        stackToQueue(s, q);
+        while (!q.isEmpty()){
+            int n = q.remove();
+            s.push(n);
+            s2.push(n);
+        }
+        return s2;
+    }
+    //4
+    public static void collapse(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        stackToQueue(s, q);
+        queueToStack(q, s);
+        stackToQueue(s, q);
+        while(!q.isEmpty()){
+            if (q.size()==1){
+                s.push(q.remove());
+            } else {
+                s.push(q.remove()+q.remove());
+            }
+        }
+    }
+    //5
+    public static boolean equals(Stack<Integer> s, Stack<Integer> s2){
+        Stack<Integer> stack = new Stack<Integer>();
+        boolean equals = true;
+        if (s.size()!=s2.size()){
+            return false;
+        } 
+        while (!s.isEmpty()){
+            int n = s.pop(), n2 = s2.pop();
+            if (n!=n2){
+                equals = false;
+            }
+            stack.push(n);
+            stack.push(n2);
+        }
+        while (!stack.isEmpty()){
+            s2.push(stack.pop());
+            s.push(stack.pop());
+        }
+        return equals;
+    }
+    //6
+    public static void rearrange(Queue<Integer> q){
+        Stack<Integer> s = new Stack<Integer>();
+        int oldSize = q.size();
+        for (int i=0;i<oldSize;i++){
+            int n = q.remove();
+            if (n%2==0){
+                s.push(n);
+            } else {
+                q.add(n);
+            }
+        }
+        for (int i=0;i<2;i++){
+            queueToStack(q, s);
+            stackToQueue(s, q);
+        }
+    }
+    //7
+    public static void reverseHalf(Queue<Integer> q){
+        Stack<Integer> s = new Stack<Integer>();
+        int oldSize = q.size();
+        for (int i=0;i<oldSize;i++){
+            int n = q.remove();
+            if (i%2!=0){
+                s.push(n);
+            } else {
+                q.add(n);
+            }
+        }
+        while (!s.isEmpty()){
+            q.add(q.remove());
+            q.add(s.pop());
+        }
+    }
+    //8
+    public static boolean isPalindrome(Queue<Integer> q){
+        Stack<Integer> s = new Stack<Integer>();
+        int oldSize = q.size();
+        boolean test = true;
+        for (int i=0;i<oldSize;i++){
+            int n = q.remove();
+            q.add(n);
+            s.push(n);
+        }
+        while (!s.isEmpty()){
+            int n = q.remove();
+            if (s.pop()!=n){
+                test = false;
+            }
+            q.add(n);
+        }
+        return test;
+    }
+    //9
+    public static void switchPairs(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        if (s.size()%2!=0){
+            q.add(s.pop());
+        }
+        while (!s.isEmpty()){
+            int n = s.pop();
+            q.add(s.pop());
+            q.add(n);
+        }
+        queueToStack(q, s);
+        stackToQueue(s, q);
+        queueToStack(q, s);
+    }
+    //10
+    public static boolean isConsecutive(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        boolean test = true;
+        while (s.size()!=1){
+            int n = s.pop();
+            if (s.peek()+1!=n){
+                test = false;
+            }
+            q.add(n);
+        }
+        q.add(s.pop());
+        for (int i=0;i<2;i++){
+            stackToQueue(s, q);
+            queueToStack(q, s);
+        }
+        return test;
+    }
+    //11
+    public static void reorder(Queue<Integer> q){
+        Stack<Integer> s = new Stack<Integer>();
+        int oldSize = q.size(), count = 0;
+        for (int i=0;i<oldSize;i++){
+            int n = q.remove();
+            if (n<0){
+                s.push(n);
+            } else {
+                q.add(n);
+                count++;
+            }
+        }
+        stackToQueue(s, q);
+        for (int i=0;i<count;i++){
+            q.add(q.remove());
+        }
+    }
+    //12
+    public static void shift (Stack<Integer> s, int n){
+        Queue<Integer> q = new LinkedList<Integer>();
+        stackToQueue(s, q);
+        for (int i=0;i<q.size()-n;i++){
+            q.add(q.remove());
+        }
+        queueToStack(q, s);
+        stackToQueue(s, q);
+        queueToStack(q, s);
+        for (int i=0;i<n;i++){
+            q.add(s.pop());
+        }
+        while(!q.isEmpty()){
+            s.push(q.remove());
+        }
+    }
+    //13
+    public static void expunge(Stack<Integer> s){
+        Stack<Integer> s2 = new Stack<Integer>();
+        s2.push(s.pop());
+        while (!s.isEmpty()){
+            int n = s.pop();
+            if (n>=s2.peek()){
+                s2.push(n);
+            }
+        }
+        while (!s2.isEmpty()){
+            s.push(s2.pop());
+        }
+    }
+    //14
+    public static void reverseFirstK(int k, Queue<Integer> q){
+        if (k<=0){
+            throw new IllegalArgumentException("k: "+k);
+        } else {
+            Stack<Integer> s = new Stack<Integer>();
+            for (int i=0;i<k;i++){
+                s.push(q.remove());
+            }
+            stackToQueue(s, q);
+            for (int i=0;i<q.size()-k;i++){
+                q.add(q.remove());
+            }
+        }
+    }
+    //15
+    public static boolean isSorted(Stack<Integer> s){
+        Stack<Integer> s2 = new Stack<Integer>();
+        boolean test = true;
+        while (s.size()!=1){
+            int n = s.pop();
+            if (s.peek()<n){
+                test = false;
+            }
+            s2.push(n);
+        }
+        s2.push(s.pop());
+        while (!s2.isEmpty()){
+            s.push(s2.pop());
+        }
+        return test;
+    }
+    //16
+    public static void mirror (Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        int oldSize = s.size();
+        stackToQueue(s, q);
+        for (int i=0;i<oldSize;i++){
+            int n = q.remove();
+            s.push(n);
+            q.add(n);
+        }
+        stackToQueue(s, q);
+        for (int i=0;i<oldSize;i++){
+            q.add(q.remove());
+        }
+        queueToStack(q, s);
+    }
+    //17
+    public static void compressDuplicates(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        int n = s.pop(), count=1;
+        while (!s.isEmpty()){
+            int n1 = s.pop();
+            if (n1==n){
+                count++;
+            } else{
+                q.add(n);
+                q.add(count);
+                n=n1;
+                count=1;
+            }
+        }
+        q.add(n);
+        q.add(count);
+        queueToStack(q, s);
+        stackToQueue(s, q);
+        queueToStack(q, s);
+    }
+    //18 
+    public static void mirrorHalves(Queue<Integer> q){
+        if (q.size()%2!=0){
+            throw new IllegalArgumentException("size: "+q.size());
+        } 
+        Stack<Integer> s = new Stack<Integer>();
+        int half = q.size()/2;
+        for (int i=0;i<2;i++){
+            for (int j=0;j<half;j++){
+                int n = q.remove();
+                q.add(n);
+                s.push(n);
+            }
+            while (!s.isEmpty()){
+                q.add(s.pop());
+            }
+        }
+    }
+    //19
+    public static int removeMin(Stack<Integer> s){
+        Queue<Integer> q = new LinkedList<Integer>();
+        int min = s.peek();
+        while (!s.isEmpty()){
+            int n = s.pop();
+            min = Math.min(min, n);
+            q.add(n);
+        }
+        while (!q.isEmpty()){
+            int n = q.remove();
+            if (n != min){
+                s.push(n);
+            }
+        }
+        stackToQueue(s, q);
+        queueToStack(q, s);
+        return min;
+    }
+    //20
+    public static void interleave(Queue<Integer> q){
+        if (q.size()%2!=0){
+            throw new IllegalArgumentException("size: "+q.size());
+        }
+        Stack<Integer> s = new Stack<Integer>();
+        int oldSize = q.size();
+        for (int i=0;i<oldSize/2;i++){
+            s.push(q.remove());
+        }
+        stackToQueue(s, q);
+        for (int i=0;i<oldSize;i++){
+            if (i<oldSize/2){
+                q.add(q.remove());
+            } else {
+                s.push(q.remove());
+            }
+        }
+        while(!s.isEmpty()){
+            q.add(s.pop());
+            q.add(q.remove());
+        }
+    }
+}
+
+
