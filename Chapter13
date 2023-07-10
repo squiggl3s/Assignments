@@ -1,0 +1,107 @@
+import java.util.*;
+public class chapter13{
+    public static void main(){
+        int[] a = {9,5,0,3,6,12,2,9,6,9,3,4,6,0,12,3,6,67,23,1,34};
+        selectionsortdual(a);
+        System.out.println(Arrays.toString(a));
+    }
+    public static void swap (int[] list, int i, int j){
+        int temp = list[i];
+        list[i]=list[j];
+        list[j]=temp;
+    }
+    //18
+    public static void selectionsort2(int[] a){
+        for(int i=a.length-1;i>=0;i--){
+            int largest = i;
+            for (int j=i-1;j>=0;j--){
+                if (a[j]>a[largest]){
+                    largest = j;
+                }
+            }
+            swap(a, i, largest);
+        }
+    }
+    //19
+    public static void selectionsortdual(int[] a){
+        for (int i=0;i<a.length/2;i++){
+            int largest = a.length-1-i, smallest = i;
+            for (int j=i+1;j<a.length-(i+1);j++){
+                if (a[j]>a[largest]){
+                    largest = j;
+                } else if (a[j]<=a[smallest]){
+                    smallest = j;
+                }
+            }
+            swap(a, i, smallest);
+            swap(a, a.length-1-i, largest);
+        }
+    }
+    //20
+    public static void shuffle(int[] a){
+        for (int i=0;i<a.length;i++){
+            int j = (int)(Math.random()*i)+1;
+            swap (a, i, j);
+        }
+    }
+    //21
+    public static void bogoSort(int[] a){
+        while (!isSorted(a)){
+            shuffle(a);
+            System.out.println(Arrays.toString(a));
+        }
+    }
+    public static boolean isSorted(int[] a){
+        for (int i=0;i<a.length-1;i++){
+            if (a[i]>a[i+1]){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+//15
+import java.util.*;
+import java.awt.*;
+public class PointComparator15 implements Comparator<Point>{
+    public int compare(Point p1, Point p2){
+        double d1 = Math.sqrt(p1.x*p1.x+p1.y*p1.y);
+    double d2 = Math.sqrt(p2.x*p2.x+p2.y*p2.y);
+    int difference = (int)(d1)*10-(int)(d2)*10;
+    return difference;
+    }
+}
+
+//16
+import java.util.*;
+public class StringComparator16 implements Comparator<String>{
+    public int compare(String s1, String s2){
+        Scanner input1 = new Scanner(s1);
+        Scanner input2 = new Scanner(s2);
+        int count1 = 0, count2 = 0;
+        while (input1.hasNext()){
+            String s = input1.next();
+            count1++;
+        }
+        while (input2.hasNext()){
+            String s = input2.next();
+            count2++;
+        }
+        return count1-count2;
+    }
+}
+
+
+//17
+import java.util.*;
+public class StringComparator17 implements Comparator<String>{
+    public int compare(String s1, String s2){
+        Scanner input1 = new Scanner (s1);
+        Scanner input2 = new Scanner (s2);
+        int n1 = input1.nextInt();
+        int n2 = input2.nextInt();
+        return n1-n2;
+    }
+}
+
