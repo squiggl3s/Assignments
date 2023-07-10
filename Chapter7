@@ -1,0 +1,263 @@
+import java.util.*;
+public class chapter7{
+    public static void main(){
+        int[][] list = {{2,7,0},{9,5,1},{4,3,8}};
+        System.out.println(isMagicSquare(list));
+    }
+    //1
+    public static int lastIndexOf(int[] list, int n){
+        for (int i=list.length-1;i>=0;i--){
+            if (list[i]==n){
+                return i;
+            }
+        }
+        return -1;
+    }
+    //2
+    public static int range(int[] list){
+        int max = list[0], min = list[0];
+        for (int i=1;i<list.length;i++){
+            max=Math.max(max, list[i]);
+            min=Math.min(min, list[i]);
+        }
+        return (max-min+1);
+    }
+    //3
+    public static int countInRange(int[] list, int min, int max){
+        int count=0;
+        for (int i=0;i<list.length;i++){
+            if (list[i]>=min&&list[i]<=max){
+                count++;
+            }
+        }
+        return count;
+    }
+    //4
+    public static boolean isSorted(double[] list){
+        if (list.length==1){
+            return true;
+        } else {
+            for (int i=0;i<list.length-1;i++){
+                if (list[i]>list[i+1]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    //5
+    public static int mode(int[] list){
+        int mode = list[0];
+        int max = 0;
+        for (int i=0;i<list.length;i++) {
+            int value = list[i];
+            int count = 1;
+            for (int j=0;j<list.length;j++) {
+                if (list[j] == value){
+                    count++;
+                }
+                if (count > max) {
+                    mode = value;
+                    max = count;
+                }
+            }
+        }
+        return mode;
+    }
+    //6
+    public static double stdev(int[] list){
+        double average = 0, n = 0;
+        for (int i=0;i<list.length;i++){
+            average+=list[i];
+        }
+        average/=list.length;
+        for (int i=0;i<list.length;i++){
+            n+=Math.pow(list[i]-average, 2);
+        }
+        return Math.sqrt(n/(list.length-1));
+    }
+    //7
+    public static int kthLargest(int k, int[] a){
+        bubbleSort(a);
+        return a[a.length-1-k];
+    }
+    public static void bubbleSort(int[] a){
+        int n = a.length;
+        int i, j, temp;
+        boolean swapped;
+        for (i=0;i<n-1;i++){
+            swapped = false;
+            for (j=0;j<n-i-1;j++){
+                if (a[j]>a[j+1]){
+                    temp = a[j];
+                    a[j]=a[j+1];
+                    a[j+1]=temp;
+                    swapped = true;
+                }
+            }
+            if (swapped == false){
+                break;
+            }
+        }
+    }
+    //8
+    public static int median(int[] list){
+        bubbleSort(list);
+        return (list[list.length/2]);
+    }
+    //9 
+    public static int minGap(int[] list){
+        Arrays.sort(list);
+        int min = 0;
+        for (int i=0;i<list.length-1;i++){
+            min=Math.min(min, list[i+1]-list[i]);
+        }
+        return min;
+    }
+    //10
+    public static double percentEven(int[] list){
+        double count=0;
+        for (int n: list){
+            if (n%2==0){
+                count++;
+            }
+        }
+        return (count/list.length);
+    }
+    //11
+    public static boolean isUnique(int[] list){
+        for (int i=0;i<list.length;i++){
+            for (int j=i+1;j<list.length;j++){
+                if (list[i]==list[j]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    //12
+    public static int priceIsRight(int[] list, int k){
+        int min = k+1;
+        for (int n:list){
+            if (n<k){
+                min=Math.min(min, k-n);
+            }
+        }
+        return k-min;
+    }
+    //13
+    public static int longestSortedSequence(int[] list){
+        int count=0, max=0;
+        for (int i=0;i<list.length-1;i++){
+            if (list[i]<list[i+1]){
+                count++;
+            } else {
+                max=Math.max(max, count);
+                count=0;
+            }
+        }
+        return max;
+    }
+    //14
+    public static boolean contains(int[] a, int[] b){
+        for (int i=0;i<a.length;i++){
+            boolean test = true;
+            for (int j=0;j<b.length;j++){
+                if (a[i+j]!= b[j]){
+                    test = false;
+                    break;
+                }
+            }
+            if (test){
+                return true;
+            }
+        }
+        return true;
+    }
+    //15
+    public static int[] collapse(int[] list){
+        int[] a = new int[(list.length+1)/2];
+        int i = 0;
+        for (int j=0;j<=list.length-2;j+=2){
+            a[i] = list[j] + list[j+1];
+            i++;
+        }
+        if (i!=a.length){
+            a[i] = list[list.length-1];
+        }
+        return a;
+    }
+    //16
+    public static int[] append(int[] a, int[] b){
+        int[] list = new int[a.length+b.length];
+        for (int i=0;i<a.length;i++){
+            list[i]=a[i];
+        }
+        for (int j=0;j<b.length;j++){
+            list[a.length-1+j]=b[j];
+        }
+        return list;
+    }
+    //17
+    public static int[] vowelCount(String s){
+        int[] list = new int[5];
+        String vowels = "aeiou";
+        for (int i=0;i<s.length();i++){
+            char c= s.charAt(i);
+            if (vowels.indexOf(c)>0){
+                list[vowels.indexOf(c)]++;
+            }
+        }
+        return list;
+    }
+    //18
+    public static void wordLengths(Scanner console){
+        int[] array = new int[81];
+        while (console.hasNext()){
+            array[console.next().length()]++;
+        }
+        for (int i=0;i<array.length;i++){
+            if (array[i]!=0){
+                System.out.print(i+": "+"/t");
+                for (int j=1;j<=array[i];j++){
+                    System.out.print("*");
+                }
+                System.out.println();
+            }
+        }
+    }
+    //19
+    public static int[][] matrixAdd(int[][] a, int[][] b){
+        int[][] c = new int[a.length][a[0].length];
+        for (int i=0;i<c.length;i++){
+            for (int j=0;j<c[0].length;j++){
+                c[i][j] = a[i][j]+b[i][j];
+            }
+        }
+        return c;
+    }
+    //20
+    public static boolean isMagicSquare(int[][] a){
+        int sum = 0, sum1 = 0;
+        for (int i=0;i<a.length;i++){
+            sum+=a[i][i];
+            sum1+=a[i][a.length-1-i];
+        }
+        if(sum!=sum1){
+            return false;
+        }
+        for (int i=0;i<a.length;i++){
+            int sum2 = 0;
+            int sum3 = 0;
+            for (int j=0;j<a.length;j++){
+                sum2+=a[i][j];
+                sum3+=a[j][i];
+            }
+            if (sum2!=sum3||sum2!=sum){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
