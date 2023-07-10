@@ -1,0 +1,286 @@
+public class Chapter1Exercises{
+    public static void main(){
+        //Exercise #1
+        System.out.println("Exercise#1");
+        System.out.println("//////////////////////");
+        System.out.println("|| Victory is mine! ||");
+        System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #2
+        System.out.println("Exercise#2");
+        System.out.println("  \\/");
+        System.out.println(" \\\\//");
+        System.out.println("\\\\\\///");
+        System.out.println("///\\\\\\");
+        System.out.println(" //\\\\");
+        System.out.println("  /\\");
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #3
+        System.out.println("Exercise#3");
+        System.out.println("A well-formed Java program has\na main method with { and }\nbraces.");
+        System.out.println();
+        System.out.println("A System.out.println statement\nhas ( and ) and usually a\nString that starts and ends with a \" character.");
+        System.out.println("(But we type \\\" instead!)");
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #4
+        System.out.println("Exercise#4");
+        System.out.println("What is the difference between\na ' and a \" and a \\\"?");
+        System.out.println();
+        System.out.println("One is what we see when we're typing our program.\nThe other is what appears on the \"console.\"");
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #5
+        System.out.println("Exercise#5");
+        System.out.println("A \"quotes\" String is\n'much' better if you learn\nthe rules of \"escape sequences.\"");
+        System.out.println("Also, \"\" represents an empty String.");
+        System.out.println("Don't forget: use \\\" instead of \" !");
+        System.out.println("'' is not the same as \"");
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #6
+        System.out.println("Exercise#6");
+        HelloWorld();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #7
+        System.out.println("Exercise#7");
+        Mantra();
+        Mantra();
+        System.out.println();  /*For Organization*/
+        
+        //Exercise #8
+        System.out.println("Exercise#8");
+        dash();
+        Stewie2();
+        Stewie2();
+        Stewie2();
+        Stewie2();
+        Stewie2();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #9
+        System.out.println("Exercise#9");
+        System.out.println();
+        eggtop();
+        crack();
+        eggbottom();
+        System.out.println();
+        
+        //Exercise#10
+        System.out.println("Exercise#10");
+        eggtop();
+        eggbottom();
+        System.out.println();
+        crack();
+        eggtop();
+        eggbottom();
+        System.out.println();
+        crack();
+        eggbottom();
+        System.out.println();
+        eggtop();
+        crack();
+        eggbottom();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #11
+        System.out.println("Exercise#11");
+        TwoRockets();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #12
+        System.out.println("Exercise#12");
+        GoTeam();
+        System.out.println();
+        FightSong();
+        System.out.println();
+        FightSong();
+        System.out.println();
+        GoTeam();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #13
+        System.out.println("Exercise#13");
+        StarFigures();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #14
+        System.out.println("Exercise#14");
+        Lanterns();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #15
+        System.out.println("Exercise#15");
+        EggStop();
+        System.out.println(); /*For Organization*/
+        
+        //Exercise #16
+        System.out.println("Exercise#16");
+        Shining();
+    }
+    //Exercise #6
+    public static void HelloWorld() {
+        System.out.println("public class hello {");
+        System.out.println("  public static void main(Strings[] args) {");
+        System.out.println("    System.out.println(\"Hello, World!\")");
+        System.out.println("  }");
+        System.out.println("}");
+    }
+    //Exercise #7
+      public static void Mantra(){
+        System.out.println("There's one thing every coder must understand:\nThe System.out.println command.");
+        System.out.println();
+    }
+    //Exercise #8
+    public static void dash() {
+        System.out.println("//////////////////////");
+    }
+    public static void dash2() {
+        System.out.print("\\\\\\\\\\\\\\\\\\\\\\");
+        System.out.print("\\\\\\\\\\\\\\\\\\\\\\");
+        System.out.println("");
+    }
+    public static void Stewie2(){
+        System.out.println("|| Victory is mine! ||");
+        dash2();
+    }
+    //Exercise #9
+    public static void eggtop(){
+        System.out.println("  _______");
+        System.out.println(" /       \\");
+        System.out.println("/         \\");
+    }
+    public static void eggbottom(){
+        System.out.println("\\         /");
+        System.out.println(" \\       /");
+        System.out.println("  _______");
+    }
+    public static void crack(){
+        System.out.println("-\"-'-\"-'-\"-");
+    }
+    //Exercise #11\
+    public static void TwoRockets(){
+        uparrows();
+        square();
+        UnitedStates();
+        square();
+        uparrows();
+    }
+    public static void uparrows(){
+        System.out.println("   /\\       /\\");
+        System.out.println("  /  \\     /  \\");
+        System.out.println(" /    \\   /    \\");
+    }
+    public static void square(){
+        System.out.println("+------+ +------+");
+        System.out.println("|      | |      |");
+        System.out.println("|      | |      |");
+        System.out.println("+------+ +------+");
+    }
+    public static void UnitedStates(){
+        System.out.println("|United| |United|");
+        System.out.println("|States| |States|");
+    }
+    //Exercise #12
+    public static void GoTeam(){
+        System.out.println("Go, team, go!");
+        System.out.println("You can do it.");
+    }
+    public static void FightSong(){
+        GoTeam();
+        System.out.println("You're the best,\nIn the West.");
+        GoTeam();
+    }
+    //Exercise #13
+    public static void StarFigures(){
+        stripes();
+        stars();
+        System.out.println();
+        stripes();
+        stars();
+        stripes();
+        System.out.println();
+        starline();
+        stripes();
+        stars();
+    }
+    public static void stripes(){
+        System.out.println("*****");
+        System.out.println("*****");
+    }
+    public static void stars(){
+        System.out.println(" * *");
+        System.out.println("  * ");
+        System.out.println(" * *");
+    }
+    public static void starline(){
+        System.out.println("  *");
+        System.out.println("  *");
+        System.out.println("  *");
+    }
+    //Exercise #14
+    public static void Lanterns(){
+        lanterntop();
+        System.out.println();
+        lanterntop();
+        light();
+        System.out.println("*************");
+        lanterntop();
+        System.out.println();
+        lanterntop();
+        lanternline();
+        light();
+        light();
+        lanternline();
+        lanternline();
+    }
+    public static void lanterntop(){
+        System.out.println("    *****");
+        System.out.println("  *********");
+        System.out.println("*************");
+    }
+    public static void light(){
+        System.out.println("* | | | | | *");
+    }
+    public static void lanternline(){
+        System.out.println("    *****");
+    }
+    //Exercise #15
+    public static void EggStop() {
+        eggtop();
+        eggbottom();
+        eggbottom();
+        System.out.println(" +-------+");
+        System.out.println();
+        eggtop();
+        System.out.println("|   STOP  |");
+        eggbottom();
+        System.out.println();
+        eggtop();
+        System.out.println("+---------+");
+    }
+    //Exercise #16
+    public static void Shining(){
+        Shining5();Shining5();
+    }
+    public static void Shining1(){
+        System.out.println("All work and no play makes Jack a dull boy.");
+    }
+    public static void Shining2(){
+        Shining1();Shining1();Shining1();Shining1();Shining1();
+    }
+    public static void Shining3(){
+        Shining2();Shining2();Shining2();Shining2();
+    }
+    public static void Shining4(){
+        Shining3();Shining3();Shining3();Shining3();Shining3();
+    }
+    public static void Shining5(){
+        Shining4();Shining4();Shining4();Shining4();Shining4();
+    }
+}
+
+
