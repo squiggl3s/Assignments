@@ -1,0 +1,224 @@
+import java.util.*;
+public class chapter12{
+    public static void main(){
+        exercise(1);
+        starString(3);
+    }
+    public static void exercise(int n){
+        System.out.println("Exercise #"+n);
+    }
+    //1
+    public static void starString(int n){
+        if (n<0){
+            throw new IllegalArgumentException();
+        } else if (n==0){
+            System.out.print("*");
+        } else if (n==1){
+            System.out.print("**");
+        } else {
+            starString(n-1);
+            starString(n-1);
+        }
+    }
+    //2
+    public static void writeNums(int n){
+        if (n<=0){
+            throw new IllegalArgumentException();
+        } else if (n==1){
+            System.out.print("1 ");
+        } else {
+            writeNums(n-1);
+            System.out.print(n+" ");
+        }
+    }
+    //3
+    public static void writeSequence(int n){
+        if (n<=0){
+            throw new IllegalArgumentException();
+        }
+        if (n==1){
+            System.out.print("1 ");
+        } else if (n==2){
+            System.out.print("1 1 ");
+        } else {
+            int temp = n/2;
+            if (n%2!=0){
+                temp++;
+            }
+            System.out.print(temp+" ");
+            writeSequence(n-2);
+            System.out.print(temp+" ");
+        }
+    }
+    //4
+    public static int doubleDigits(int n){
+        String s = ""+n;
+        return doubleDigits(n, 0, s.length());
+    }
+    private static int doubleDigits(int n, int place, int size){
+        if (place!=size){
+            int temp = n%10;
+            int i = temp*(int)Math.pow(10, place*2+1)+temp*(int)Math.pow(10, place*2);
+            return i+=doubleDigits(n/10, place+1, size);
+        }
+        return 0;
+    }
+    //5
+    public static void writeBinary(int n){
+        
+    }
+    //6
+    public static void writeSquares(int n){
+        if (n<1){
+            throw new IllegalArgumentException();
+        } else if (n==1){
+            System.out.print("1 ");
+        } else {
+            int s = n*n;
+            if (s%2==0){
+                writeSquares(n-1);
+            }
+            System.out.print(n*n+" ");
+            if (s%2!=0){
+                writeSquares(n-1);
+            }
+        }
+    }
+    //7
+    public static void writeChars(int n){
+        if (n<0){
+            throw new IllegalArgumentException();
+        } else if (n==1){
+            System.out.print("*");
+        } else if (n==2){
+            System.out.print("**");
+        } else {
+            System.out.print("<");
+            writeChars(n-2);
+            System.out.print(">");
+        }
+    }
+    //8
+    public static int multiplyEvens(int n){
+        if (n<=0){
+            throw new IllegalArgumentException();
+        } else if (n==1){
+            return 2;
+        } else {
+            return (n*2)*multiplyEvens(n-1);
+        }
+    }
+    //9
+    public static double sumTo(int n){
+        if (n<0){
+            throw new IllegalArgumentException();
+        } else if (n==0){
+            return 0;
+        } else if (n==1){
+            return 1;
+        } else {
+            return 1/((double)n)+sumTo(n-1);
+        }
+    }
+    //10
+    public static int digitMatch(int m, int n){
+        if (m==0||n==0){
+            return 0;
+        } else {
+            int yes = 0;
+            if (m%10==n%10){
+                yes++;
+            }
+            return yes + digitMatch(m/10, n/10);
+        }
+    }
+    //11
+    public static String repeat(String s, int n){
+        if (n>0){
+            return s+repeat(s, n-1);
+        }
+        return "";
+    }
+    //12
+    public static boolean isReverse(String s, String r){
+        return isReverse(s.toLowerCase(), r.toLowerCase(), 0);
+    }
+    private static boolean isReverse(String s, String r, int n){
+        if (n==s.length()/2){
+            return true;
+        } else {
+            return s.charAt(n)==r.charAt(s.length()-1-n) && isReverse(s, r, n+1);
+        }
+    }
+    //13
+    public static int indexOf(String s, String i){
+        return indexOf(s, i, 0);
+    }
+    private static int indexOf(String s, String i, int index){
+        if (index>=s.length()){
+            return -1;
+        } else if (s.substring(index, index+i.length()).equals(i)){
+            return index;
+        } else {
+            return indexOf(s, i, index+1);
+        }
+    }
+    //14
+    public static int evenDigits(int n){
+        return evenDigits(n, 0);
+    }
+    private static int evenDigits(int n, int evencount){
+        int add = 0;
+        if (n!=0){
+            if (n%10%2==0){
+                add = n%10*(int)Math.pow(10, evencount);
+                evencount++;
+            }
+            return add+evenDigits(n/10, evencount);
+        } 
+        return 0;
+    }
+    //15
+    public static int permut(int n, int r){
+        return factorial(n)/factorial(n-r);
+    }
+    private static int factorial(int n){
+        if (n==2){
+            return 2;
+        } else {
+            return n*factorial(n-1);
+        }
+    }
+    //16 
+    //17
+    //18
+    public static void waysToClimb(int n){
+        waysToClimb(n, 0, "");
+    }
+    private static void waysToClimb(int n, int i, String s){
+        if (i==n){
+            System.out.println("["+s.substring(0, s.length()-2)+"]");
+        } else if (i<n){
+            waysToClimb(n, i+1, s+"1, ");
+            waysToClimb(n, i+2, s+"2, ");
+        }
+    }
+    //19
+    public static void countBinary(int n){
+        countBinary(n, 0, "");
+    }
+    private static void countBinary(int n, int i, String s){
+        if (i==n){
+            System.out.println(s);
+        } else {
+            countBinary(n, i+1, s+"0");
+            countBinary(n, i+1, s+"1");
+        }
+    }
+    //20
+    public static void subsets(List<String> L){
+        
+    }
+}
+
+
