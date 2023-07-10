@@ -1,0 +1,508 @@
+public class Employee{
+    public int getHours(){
+        return 40;
+    }
+    public double getSalary(){
+        return 40000.0;
+    }
+    public int getVacationDays(){
+        return 10;
+    }
+    public String getVacationForm(){
+        return "yellow";
+    }
+}
+public class Marketer extends Employee{
+    public double getSalary(){
+        return super.getSalary()+10000;
+    }
+    public void advertise(){
+        System.out.println("Act now, while supplies last!");
+    }
+}
+public class Lawyer extends Employee{
+    public int getVacationDays(){
+        return 15;
+    }
+    public String getVacationForm(){
+        return "pink";
+    }
+    public void sue(){
+        System.out.println("I'll see you in court!");
+    }
+}
+public class HarvardLawyer extends Lawyer{
+    public double getSalary(){
+        return super.getSalary()+super.getSalary()*.2;
+    }
+    public int getVacationDays(){
+        return super.getVacationDays()+3;
+    }
+    public String getVacationForm(){
+        String s = super.getVacationForm();
+        for (int i=0;i<4;i++){
+            s = s + s;
+        }
+        return s;
+    }
+}
+public class Janitor extends Employee{
+    public int getHours(){
+        return super.getHours()*2;
+    }
+    public double getSalary(){
+        return super.getSalary()-10000;
+    }
+    public int getVacationDays(){
+        return super.getVacationDays()/2;
+    }
+    public void clean(){
+        System.out.println("Workin' for the man.");
+    }
+}
+
+public class Car{
+    public void m1(){
+        System.out.println("car 1");
+    }
+    public void m2(){
+        System.out.println("car2");
+    }
+    public String toString(){
+        return "vroom";
+    }
+}
+public class Truck extends Car{
+    public void m1(){
+        System.out.println("truck 1");
+    }
+    public void m2(){
+        super.m1();
+    }
+    public String toString(){
+        return super.toString()+super.toString();
+    }
+}
+public class MonsterTruck extends Truck{
+    public void m1(){
+        System.out.println("monster 1");
+    }
+    public void m2(){
+        super.m1();
+        super.m2();
+    }
+    public String toString(){
+        return "monster "+super.toString();
+    }
+}
+
+public class Ticket{
+    int number;
+    double price;
+    public Ticket(int number){
+         this.number = number;
+    }
+    public double getPrice(){
+        return price;
+    }
+    public String toString(){
+        return "Number: "+number+", Price: "+price;
+    }
+}
+public class WalkupTicket extends Ticket{
+    public WalkupTicket(int number){
+        super(number);
+    }
+    public double getPrice(){
+        return 50;
+    }
+}
+public class AdvanceTicket extends Ticket{
+    int days;
+    public AdvanceTicket(int number, int days){
+        super(number);
+        this.days = days;
+    }
+    public double getPrice(){
+        if (days>=10){
+            return 30;
+        }
+        return 40;
+    }
+}
+public class StudentAdvTicket extends AdvanceTicket{
+    public StudentAdvTicket(int number, int days){
+        super(number, days);
+    }
+    public double getPrice(){
+        if (days>=10){
+            return 15;
+        }
+        return 20;
+    }
+    public String toString(){
+        return super.toString()+" (ID required)";
+    }
+}
+
+
+public interface Incrementable{
+    public void increment();
+    public int getValue();
+}
+public class SequentialInc implements Incrementable{
+    private int value;
+    public SequentialInc(){
+        value = 0;
+    }
+    public void increment(){
+        value++;
+    }
+    public int getValue(){
+        return value;
+    }
+}
+public class RandomInc implements Incrementable{
+    int value;
+    public RandomInc(){
+        value = (int)(Math.random()*100);
+    }
+    public void increment(){
+        value += (int)(Math.random()*100);
+    }
+    public int getValue(){
+        return value;
+    }
+}
+//GroceryList
+import java.util.*;
+public class GroceryBill{
+    private ArrayList<Item> list;
+    private Employee clerk;
+    public GroceryBill(Employee c){
+        list=new ArrayList<Item>();
+        clerk = c;
+    }
+    public void add(Item item){
+        if (list.size()<10){
+            list.add(item);
+        }
+    }
+    public double getTotal(){
+        double tc = 0;
+        for (int i=0;i<list.size();i++){
+            Item item = list.get(i);
+            tc+=item.getPrice();
+        }
+        return tc;
+    }
+    public void printReceipt(){
+        System.out.println(list);
+    }
+}
+public class DiscountBill extends GroceryBill{
+    boolean preferred;
+    double amount;
+    int count; 
+    public DiscountBill(Employee clerk, boolean preferred){
+        super(clerk);
+        this.preferred = preferred;
+    }
+    public void add(Item i){
+        super.add(i);
+        if (preferred&&i.getDiscount()!=0){
+            count++;
+            amount+=i.getDiscount();
+        }
+    }
+    public int getDiscountCount(){
+        return count;
+    }
+    public double getDiscountAmount(){
+        return amount;
+    }
+    public double getDiscountPercent(){
+        return (amount/super.getTotal())*100;
+    }
+}
+//GroceryItemOrder
+import java.text.NumberFormat;
+import java.util.Locale;
+public class Item{
+    String name;
+    int amount;
+    double price, discount;
+    public Item(String n, int q, double p, double d){
+        name=n;
+        amount=q;
+        price=p;
+        discount = d;
+    }
+    public double getPrice(){
+        return price*amount;
+    }
+    public void setQuantity(int q){
+        amount=q;
+    }
+    public double getDiscount(){
+        return discount;
+    }
+     public String toString(){
+        NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(Locale.US);  
+        return "Item Name: " + name +
+              "\n Quantity: " + amount +
+              "\n Price Per Unit: $" + price +
+              "\n Cost: " + moneyFormat.format(getPrice());
+    }
+}
+
+
+//BankAccount
+public class BankAccount{
+    String name;
+    double balance;
+    double transactionFee;
+    public BankAccount(String name){
+        this.name=name;
+    }
+    public void deposit(double amount){
+        balance+=amount;
+    }
+    public void withdraw(double amount){
+        double a = balance-amount-transactionFee;
+        if (a>0){
+            balance=a;
+        }
+    }
+    public void setTransactionFee(double amount){
+        transactionFee=amount;
+    }
+    public void transfer(BankAccount other, double amount){
+        if (this.balance-5<amount&&this.balance-5>0){
+            other.balance+=this.balance-5;
+            balance=0;
+        } else if (this.balance-5>amount){
+            balance=balance-5-amount;
+            other.balance+=amount;
+        }
+    }
+    public String toString(){
+        return name+", $"+balance;
+    }
+    public static void main(){
+        BankAccount ben = new BankAccount("Ben");
+        ben.deposit(80);
+        BankAccount hal=new BankAccount("Hal");
+        hal.deposit(20);
+        ben.transfer(hal, 20);
+        hal.transfer(ben, 40);
+        System.out.println(ben.toString());
+        System.out.println(hal.toString());
+    }
+}
+public class MinMaxAccount extends BankAccount{
+    int min, max;
+    public MinMaxAccount(Startup s){
+        super(s);
+        min = s.getBalance(); 
+        max = s.getBalance();
+    }
+    public int getMin(){
+        return min;
+    }
+    public int getMax(){
+        return max;
+    }
+    public void debit(Debit d){
+        super.debit(d);
+        change();
+    }
+    public void credit(Credit c){
+        super.credit(d);
+        change();
+    }
+    private void change(){
+        if (getBalance()<min){
+            min = getBalance();
+        } else if (getBalance()>max){
+            max = getBalance();
+        }
+    }
+}
+public class FilteredAccount extends Account{
+    private int filtered, total;
+    public FilteredAccount(Client c){
+        super(c);
+        filtered=0;
+        total = 0;
+    }
+    public double percentFiltered(){
+        if (total==0){
+            return 0;
+        } else {
+            return ((double)filtered/total)*100;
+        }
+    }
+    public boolean process(Transaction t){
+        total++;
+        if (t.value()==0.0){
+            filtered++;
+            return true;
+        }
+        return process(t);
+    }
+}
+
+public interface Shape{
+    public double getArea();
+    public double getPerimeter();
+}
+public class Rectangle implements Shape{
+    private double width;
+    private double height;
+    public Rectangle(double width, double height){
+        this.width = width;
+        this.height = height;
+    }
+    public double getArea(){
+        return width*height;
+    }
+    public double getPerimeter(){
+        return width*2+height*2;
+    }
+    public boolean equals(Rectangle r){
+        return width==r.width&&height==r.height;
+    }
+}
+public class Circle implements Shape{
+    private double radius;
+    public Circle(double radius){
+        this.radius = radius;
+    }
+    public double getArea(){
+        return Math.PI*radius*radius;
+    }
+    public double getPerimeter(){
+        return 2.0*Math.PI*radius;
+    }
+    public boolean equals(Circle c){
+        return radius==c.radius;
+    }
+}
+public class Triangle implements Shape{
+    private double a, b, c;
+    public Triangle(double a, double b, double c){
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    public double getArea(){
+        double s = (a+b+c)/2;
+        return Math.sqrt(s*(s-a)*(s-b)*(s-c));
+    }
+    public double getPerimeter(){
+        return a+b+c;
+    }
+    public boolean equals(Triangle t){
+        return a==t.a&&b==t.b&&c==t.c;
+    }
+}
+public class Hexagon implements Shape{
+    private double length;
+    public Hexagon(double l){
+        length = l;
+    }
+    public double getArea(){
+        return 3*Math.sqrt(3)*.5*length*length;
+    }
+    public double getPerimeter(){
+        return length*6;
+    }
+}
+public class Octagon implements Shape{
+    private double length;
+    public Octagon(double l){
+        length = l;
+    }
+    public double getPerimeter(){
+        return length*8;
+    }
+    public double getArea(){
+        return 2*(1+Math.sqrt(2))*length*length;
+    }
+}
+
+
+public class Cash{
+    private double amount;
+    public Cash(double amount){
+        this.amount = amount;
+    }
+    public double getMarketValue(){
+        return amount;
+    }
+    public double getProfit(){
+        return amount;
+    }
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+    public boolean equals(Object o){
+        if (o instanceof Cash){
+            return amount==((Cash)o).amount;
+        }
+        return false;
+    }
+}
+
+//TimeSpan
+public class TimeSpan{
+    private int hours;
+    private int minutes;
+    public TimeSpan(int hours, int minutes){
+        this.hours=hours;
+        this.minutes=minutes;
+    }
+    public void add(int hours, int minutes){
+        if (hours<0||minutes<0){
+            throw new IllegalArgumentException();
+        }
+        this.hours+=hours;
+        this.minutes+=minutes;
+        this.hours+=this.minutes/60;
+        this.minutes=this.minutes%60;
+    }
+    public int convertToMin(int hours, int minutes){
+        return hours*60+minutes;
+    }
+    public void setMinToHours(int minutes){
+        this.hours=minutes/60;
+        this.minutes=minutes%60;
+    }
+    public void add(TimeSpan span){
+        add(span.hours, span.minutes);
+    }
+    public void subtract(TimeSpan span){
+        setMinToHours(convertToMin(span.hours, span.minutes));
+    }
+    public void scale(int factor){
+        setMinToHours(convertToMin(hours, minutes)*factor);
+    }
+    public String toString(){
+        return hours+"h "+minutes+"m";
+    }
+    public int compareTo(TimeSpan t){
+        if (this.hours==t.hours){
+            return this.minutes-t.minutes;
+        }
+        return this.hours-t.hours;
+    }
+    public boolean equals(Object o){
+        if (o instanceof TimeSpan){
+            return hours==((TimeSpan)o).hours&&minutes==((TimeSpan)o).minutes;
+        }
+        return false;
+    }
+}
+
+
