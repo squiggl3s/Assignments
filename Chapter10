@@ -1,0 +1,171 @@
+import java.util.*;
+public class chapter10{
+    public static void main(){
+        
+    }
+    //1
+    public static double averageVowels(ArrayList<String> list){
+        int count = 0;
+        for (int i=0;i<list.size();i++){
+            String s = list.get(i);
+            for (int j=0;j<s.length();j++){
+                if ("aeiouAEIOU".indexOf(s.charAt(j))>-1){
+                    count++;
+                }
+            }
+        }
+        return (double)count/list.size();
+    }
+    //2
+    public static void swapPairs(ArrayList<String> list){
+        for (int i=0;i<list.size()/2;i++){
+            String s = list.get(i*2+1);
+            list.set(i*2+1, list.get(i*2));
+            list.set(i*2, s);
+        }
+    }
+    //3 --> NOT SURE 
+    public static void removeEvenLength(ArrayList<String> list){
+        for (int i=0;i<list.size();i++){
+            String s = list.get(i);
+            if (s.length()%2==0){
+                list.remove(i);
+                i--;
+            }
+        }
+    }
+    //4
+    public static void doubleList(ArrayList<String> list){
+        for (int i=0;i<list.size();i+=2){
+            list.add(i, list.get(i));
+        }
+    }
+    //5
+    public static void scaleByK(ArrayList<Integer> list){
+        for (int i=0;i<list.size();i++){
+            int n = list.get(i);
+            if (n<=0){
+                list.remove(i);
+            } else{
+                for (int j=1;j<n;j++){
+                    list.add(i, n);
+                    i++;
+                }
+            }
+        }
+    }
+    //6
+    public static void minToFront(ArrayList<Integer> list){
+        int min=list.get(0);
+        for (int i=1;i<list.size();i++){
+            min=Math.min(min, list.get(i));
+        }
+        list.remove(list.indexOf(min));
+        list.add(0, min);
+    }
+    //7
+    public static void removeDuplicates(ArrayList<String> list){
+        for (int i=0;i<list.size();i++){
+            String str = list.get(i);
+            if (list.indexOf(str)!=list.lastIndexOf(str)){
+                list.remove(i);
+                i--;
+            }
+        }
+    }
+    //8
+    public static void removeZeros(ArrayList<Integer> list){
+        for (int i=1;i<list.size();i++){
+            if (list.get(i)==0){
+                list.remove(i);
+                i--;
+            }
+        }
+    }
+    //9
+    public static int rangeBetweenZeros(ArrayList<Integer> list){
+        return list.lastIndexOf(0)-list.indexOf(0);
+    }
+    //10
+    public static void removeInRange(ArrayList<String> list, String start, String end){
+        for (int i=0;i<list.size();i++){
+            String str = list.get(i);
+            if(str.compareTo(start)<0||str.compareTo(end)>0){
+                list.remove(i);
+                i--;
+            }
+        }
+    }
+    //11
+    public static void stutter(ArrayList<String> list, int k){
+        for (int i=0;i<list.size();i++){
+            String str = list.get(i);
+            for (int j=1;j<=k-1;j++){
+                list.add(i, str);
+                i++;
+            }
+        }
+    }
+    //12
+    public static void markLength4(ArrayList<String> list){
+        for (int i=0;i<list.size();i++){
+            if (list.get(i).length()==4){
+                list.add(i, "****");
+                i++;
+            }
+        }
+    }
+    //13
+    public static void reverse3(ArrayList<Integer> list){
+        for (int i=0;i<list.size()/3;i++){
+            int n=list.get(i*3);
+            list.set(i*3, list.get(i*3+2));
+            list.set(i*3+2, n);
+        }
+    }
+    //14
+    public static void removeShorterString(ArrayList<String> list){
+        int size = list.size();
+        for (int i=0;i<size/2;i++){
+            int l1 = list.get(i).length();
+            int l2 = list.get(i+1).length();
+            if (l1==l2||l1<l2){
+                list.remove(i);
+            } else {
+                list.remove(i+1);
+            }
+        }
+    }
+    //15
+    public static void filterRanger(ArrayList<Integer> list, int min, int max){
+        for (int i=0;i<list.size();i++){
+            int n = list.get(i);
+            if (n>=min&&n<=max){
+                list.remove(i);
+                i--;
+            }
+        }
+    }
+    //16
+    public static void clump(ArrayList<String> list){
+        int size=list.size();
+        for (int i=0;i<size/2;i++){
+            list.set(i,list.get(i*2)+" "+list.get(i*2+1));
+            list.remove(i+1);
+        }
+    }
+    //17
+    public static void interleave(ArrayList<Integer> a1, ArrayList<Integer> a2){
+        int n=Math.min(a1.size(), a2.size());
+        for (int i=0;i<n;i++){
+            a1.add(i*2+1, a2.get(i));
+        }
+        if(a2.size()>n){
+            for (int j=n;j<a2.size();j++){
+                a1.add(a2.get(j));
+            }
+        }
+    }
+    //18, 19, 20 in chapt 8 code :D
+}
+
